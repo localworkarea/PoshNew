@@ -2914,10 +2914,11 @@ body {
 .form-faq__item {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: 100%;
   width: 100%;
-  max-width: 16.875rem
+  max-width: 16.875rem;
+  row-gap: 60px
 }
 .form-faq__item._sending {
   opacity: .6;
@@ -2936,6 +2937,12 @@ body {
 }
 .form-faq__item .form-footer__item textarea {
   min-height: 80px!important
+}
+.form-faq__item .form-footer__item.item-textarea {
+  margin-bottom: unset!important
+}
+.form-faq__item .form-footer__item:not(.item-textarea) {
+  margin-bottom: 20px
 }
 .form-faq__item .form-footer__item._form-focus .form-footer__label span {
   -webkit-transform: translateY(-20px);
@@ -5651,12 +5658,12 @@ body {
   .our-serv__head {
     max-width: 68%
   }
-  .our-serv__nav._top-mb {
-    transition: top .4s ease,opacity .3s ease,margin-bottom 0s .8s
-  }
   .our-serv__nav {
-    padding: 3.75rem 0 0;
-    margin-bottom: 5.625rem
+    padding: 4.6875rem 0 0;
+    margin-bottom: 28.125rem
+  }
+  .our-serv__body {
+    margin-top: -22.5rem
   }
   .our-serv__body {
     grid-template-columns: 1fr 1fr
@@ -6832,11 +6839,6 @@ body {
   }
   .our-serv__slider {
     max-height: 26.25rem
-  }
-}
-@media (min-width:93.81125em) {
-  .our-serv__nav._top-mb {
-    margin-bottom: 34.375rem
   }
 }
 @media (min-width:107.5em) {
@@ -13950,16 +13952,6 @@ body {
     .item-partners__mail {
       font-size: calc(.8125rem + .1875*(100vw - 62.06125rem)/ 23.375)
     }
-  }
-}
-@media (max-width:93.81125em)and (min-width:64.06125em) {
-  .our-serv__nav._top-mb {
-    margin-bottom: 28.125rem
-  }
-}
-@media (max-width:64.06125em)and (min-width:30.06125em) {
-  .our-serv__nav._top-mb {
-    margin-bottom: 35.9375rem
   }
 }
 @media (min-width:48.06125em)and (min-width:48.06125em)and (max-width:85.43625em) {

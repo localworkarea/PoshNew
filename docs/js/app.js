@@ -7368,13 +7368,7 @@
                         ourServPhotos.style.paddingBottom = `${paddingBottom}px`;
                     } else ourServPhotos.style.paddingBottom = "0";
                     const stickyPositionSliderWr = sliderWrapper.getBoundingClientRect().top;
-                    if (stickyPositionSliderWr <= 0) {
-                        navElement.classList.add("_top-mb");
-                        headerElOur.classList.add("_hidden-header");
-                    } else {
-                        navElement.classList.remove("_top-mb");
-                        headerElOur.classList.remove("_hidden-header");
-                    }
+                    if (stickyPositionSliderWr <= 0) headerElOur.classList.add("_hidden-header"); else headerElOur.classList.remove("_hidden-header");
                     const navRect = navElement.getBoundingClientRect();
                     if (navRect.top >= 0) navElement.classList.add("_sticky"); else {
                         navElement.classList.remove("_sticky");

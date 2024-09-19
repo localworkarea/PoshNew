@@ -760,11 +760,11 @@ document.addEventListener("DOMContentLoaded", function() {
           if (stickyPositionSliderWr <= 0) {
             // console.log('позиция', stickyPositionSliderWr);
             // setTimeout(() => {
-              navElement.classList.add('_top-mb');
-            // }, 800);
+            //   navElement.classList.add('_top-mb');
+            // }, 500);
             headerElOur.classList.add('_hidden-header');
           } else {
-            navElement.classList.remove('_top-mb');
+            // navElement.classList.remove('_top-mb');
             headerElOur.classList.remove('_hidden-header');
           }
           

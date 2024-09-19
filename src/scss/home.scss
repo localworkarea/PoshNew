@@ -3270,10 +3270,11 @@ background-color: $mainWhite;
 	&__item {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     height: 100%;
     width: 100%;
     max-width: toRem(270);
+    row-gap: 60px;
     &._sending {
       opacity: 0.6;
       pointer-events: none;
@@ -3291,6 +3292,12 @@ background-color: $mainWhite;
       width: 100%;
       textarea {
         min-height: 80px !important;
+      }
+      &.item-textarea {
+        margin-bottom: unset !important;
+      }
+      &:not(.item-textarea) {
+        margin-bottom: 20px;
       }
       &._form-focus {
         .form-footer__label {
@@ -3851,23 +3858,25 @@ background-color: $mainWhite;
     background-color: $mainWhite;
     opacity: 0;
     transition: top .4s ease, opacity .3s ease, margin-bottom .0s 0s;
+
+
     .loaded & {
       opacity: 1;
     }
-    &._top-mb {
-      @media (min-width: em(1500.98)){
-        margin-bottom: toRem(550);
-      }
-      @media (max-width: em(1500.98)) and (min-width: em(1024.98)){
-        margin-bottom: toRem(450);
-      }
-      @media (max-width: em(1024.98)) and (min-width:$mobileSmall) { 
-        margin-bottom: toRem(575);
-      }
-      @media (min-width:$mobile){
-        transition: top .4s ease, opacity .3s ease, margin-bottom .0s 0.8s; 
-      }
-    }
+    // &._top-mb {
+    //   @media (min-width: em(1500.98)){
+    //     margin-bottom: toRem(550);
+    //   }
+    //   @media (max-width: em(1500.98)) and (min-width: em(1024.98)){
+    //     margin-bottom: toRem(450);
+    //   }
+    //   @media (max-width: em(1024.98)) and (min-width:$mobileSmall) { 
+    //     margin-bottom: toRem(575);
+    //   }
+    //   @media (min-width:$mobile){
+    //     transition: top .4s ease, opacity .3s ease, margin-bottom .0s 0.8s; 
+    //   }
+    // }
     .nav-serv__slider {
       margin-bottom: toRem(0);
     }
@@ -3885,8 +3894,10 @@ background-color: $mainWhite;
       }
     }
     @media (min-width:$mobile){
-      padding: toRem(60) 0 toRem(0);
-      margin-bottom: toRem(90);
+      padding: toRem(75) 0 toRem(0);
+      // margin-bottom: toRem(90);
+      margin-bottom: toRem(450);
+
     }
     @media (max-width:$mobile){
       display: none;
@@ -3897,6 +3908,9 @@ background-color: $mainWhite;
     display: grid;
     opacity: 0;
     transition: top .4s ease, opacity .3s ease;
+    @media (min-width:$mobile){
+      margin-top: toRem(-360);
+    }
     .loaded & {
       opacity: 1;
     }
