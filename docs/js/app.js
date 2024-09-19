@@ -7327,16 +7327,25 @@
             const lastServItem = document.querySelector(".our-serv__item:last-child");
             const headerElOur = document.querySelector(".header");
             const sliderWrapper = document.querySelector(".our-serv__slider-wr");
-            function scrollToTarget(targetElement, sliderElement) {
+            function scrollToTarget(targetElement, sliderElement, adjustment = 0) {
                 const sliderRect = sliderElement.getBoundingClientRect();
-                const sliderCenter = sliderRect.top + sliderRect.height / 2;
+                const sliderCenter = window.scrollY + sliderRect.top + sliderRect.height / 2;
                 const targetRect = targetElement.getBoundingClientRect();
-                const targetCenter = targetRect.top + targetRect.height / 2;
-                const offset = targetCenter - sliderCenter;
-                window.scrollBy({
-                    top: offset,
+                const targetCenter = window.scrollY + targetRect.top + targetRect.height / 2;
+                const correction = targetCenter - sliderCenter;
+                window.scrollTo({
+                    top: window.scrollY + correction + adjustment,
                     behavior: "smooth"
                 });
+                requestAnimationFrame((() => {
+                    const newTargetRect = targetElement.getBoundingClientRect();
+                    const newTargetCenter = window.scrollY + newTargetRect.top + newTargetRect.height / 2;
+                    const newCorrection = newTargetCenter - sliderCenter;
+                    if (Math.abs(newCorrection) > 1) window.scrollTo({
+                        top: window.scrollY + newCorrection + adjustment,
+                        behavior: "smooth"
+                    });
+                }));
             }
             if (navElement) {
                 if (navLinks.length > 0) navLinks.forEach((link => {
@@ -7379,33 +7388,37 @@
                     window.addEventListener("scroll", handleScrollEvents);
                     handleScrollEvents();
                 }
-                setTimeout((() => {
-                    const items = document.querySelectorAll(".our-serv__item");
-                    items.forEach((item => {
-                        const idValue = item.getAttribute("data-set-id");
-                        if (idValue) item.id = idValue;
-                    }));
-                    if (window.location.hash) {
-                        const hash = window.location.hash;
-                        const targetElementHash = document.querySelector(hash);
-                        if (targetElementHash) {
-                            const navElementPosition = navElement.getBoundingClientRect().top;
-                            if (navElementPosition > 0) {
-                                window.scrollTo({
-                                    top: window.scrollY + navElementPosition,
-                                    behavior: "smooth"
-                                });
-                                setTimeout((() => {
-                                    scrollToTarget(targetElementHash, sliderElement);
-                                    history.replaceState(null, null, " ");
-                                }), 500);
-                            } else setTimeout((() => {
-                                scrollToTarget(targetElementHash, sliderElement);
-                                history.replaceState(null, null, " ");
-                            }), 500);
+                window.addEventListener("load", (() => {
+                    setTimeout((() => {
+                        const items = document.querySelectorAll(".our-serv__item");
+                        items.forEach((item => {
+                            const idValue = item.getAttribute("data-set-id");
+                            if (idValue) item.id = idValue;
+                        }));
+                        if (window.location.hash) {
+                            const hash = window.location.hash;
+                            const targetElementHash = document.querySelector(hash);
+                            if (targetElementHash) {
+                                const navElementPosition = navElement.getBoundingClientRect().top;
+                                requestAnimationFrame((() => {
+                                    if (navElementPosition > 0) {
+                                        window.scrollTo({
+                                            top: window.scrollY + navElementPosition,
+                                            behavior: "smooth"
+                                        });
+                                        setTimeout((() => {
+                                            scrollToTarget(targetElementHash, sliderElement, 20);
+                                            history.replaceState(null, null, " ");
+                                        }), 500);
+                                    } else setTimeout((() => {
+                                        scrollToTarget(targetElementHash, sliderElement, 20);
+                                        history.replaceState(null, null, " ");
+                                    }), 500);
+                                }));
+                            }
                         }
-                    }
-                }), 100);
+                    }), 100);
+                }));
             }
             const faqBody = document.querySelector(".faq__body");
             if (faqBody) {

@@ -693,20 +693,68 @@ document.addEventListener("DOMContentLoaded", function() {
       const headerElOur = document.querySelector('.header');
       const sliderWrapper = document.querySelector('.our-serv__slider-wr');
 
-      function scrollToTarget(targetElement, sliderElement) {
-        const sliderRect = sliderElement.getBoundingClientRect();
-        const sliderCenter = sliderRect.top + sliderRect.height / 2;
+      // function scrollToTarget(targetElement, sliderElement) {
+      //   const sliderRect = sliderElement.getBoundingClientRect();
+      //   const sliderCenter = sliderRect.top + sliderRect.height / 2;
       
-        const targetRect = targetElement.getBoundingClientRect();
-        const targetCenter = targetRect.top + targetRect.height / 2;
+      //   const targetRect = targetElement.getBoundingClientRect();
+      //   const targetCenter = targetRect.top + targetRect.height / 2;
       
-        const offset = targetCenter - sliderCenter;
+      //   const offset = targetCenter - sliderCenter;
       
-        window.scrollBy({
-          top: offset,
-          behavior: 'smooth'
-        });
-      }
+      //   window.scrollBy({
+      //     top: offset,
+      //     behavior: 'smooth'
+      //   });
+      // }
+// function scrollToTarget(targetElement, sliderElement) {
+//   const sliderRect = sliderElement.getBoundingClientRect();
+//   const sliderCenter = window.scrollY + sliderRect.top + sliderRect.height / 2;
+
+//   const targetRect = targetElement.getBoundingClientRect();
+//   const targetCenter = window.scrollY + targetRect.top + targetRect.height / 2;
+
+//   // Корректировка для центрирования
+//   const correction = targetCenter - sliderCenter;
+
+//   window.scrollTo({
+//     top: window.scrollY + correction,
+//     behavior: 'smooth'
+//   });
+// }
+
+function scrollToTarget(targetElement, sliderElement, adjustment = 0) {
+  const sliderRect = sliderElement.getBoundingClientRect();
+  const sliderCenter = window.scrollY + sliderRect.top + sliderRect.height / 2;
+
+  const targetRect = targetElement.getBoundingClientRect();
+  const targetCenter = window.scrollY + targetRect.top + targetRect.height / 2;
+
+  // Корректировка для более точного центрирования
+  const correction = targetCenter - sliderCenter;
+
+  window.scrollTo({
+    top: window.scrollY + correction + adjustment, // Добавляем корректировку
+    behavior: 'smooth'
+  });
+
+  // Дополнительная проверка через requestAnimationFrame для точной корректировки
+  requestAnimationFrame(() => {
+    const newTargetRect = targetElement.getBoundingClientRect();
+    const newTargetCenter = window.scrollY + newTargetRect.top + newTargetRect.height / 2;
+    const newCorrection = newTargetCenter - sliderCenter;
+
+    if (Math.abs(newCorrection) > 1) { // если элемент всё ещё не по центру, докручиваем
+      window.scrollTo({
+        top: window.scrollY + newCorrection + adjustment, // Добавляем корректировку
+        behavior: 'smooth'
+      });
+    }
+  });
+}
+
+      
+      
 
       if (navElement) {
         if (navLinks.length > 0) {
@@ -758,13 +806,8 @@ document.addEventListener("DOMContentLoaded", function() {
           
           // Sticky Navigation ===============================================
           if (stickyPositionSliderWr <= 0) {
-            // console.log('позиция', stickyPositionSliderWr);
-            // setTimeout(() => {
-            //   navElement.classList.add('_top-mb');
-            // }, 500);
             headerElOur.classList.add('_hidden-header');
           } else {
-            // navElement.classList.remove('_top-mb');
             headerElOur.classList.remove('_hidden-header');
           }
           
@@ -786,44 +829,46 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       
         
-
-
-        setTimeout(() => {
-          const items = document.querySelectorAll('.our-serv__item');
-          
-          items.forEach(item => {
-            const idValue = item.getAttribute('data-set-id');
-            if (idValue) {
-              item.id = idValue;
-            }
-          });
-      
-          if (window.location.hash) {
-            const hash = window.location.hash;
-            const targetElementHash = document.querySelector(hash);
+        window.addEventListener('load', () => {
+          setTimeout(() => {
+            const items = document.querySelectorAll('.our-serv__item');
             
-            if (targetElementHash) {
+            items.forEach(item => {
+              const idValue = item.getAttribute('data-set-id');
+              if (idValue) {
+                item.id = idValue;
+              }
+            });
+        
+            if (window.location.hash) {
+              const hash = window.location.hash;
+              const targetElementHash = document.querySelector(hash);
+              
+              if (targetElementHash) {
                 const navElementPosition = navElement.getBoundingClientRect().top;
-                
-                if (navElementPosition > 0) {
-                  window.scrollTo({
-                    top: window.scrollY + navElementPosition,
-                    behavior: 'smooth'
-                  });
-                  setTimeout(() => {
-                    scrollToTarget(targetElementHash, sliderElement);
-                    history.replaceState(null, null, ' ');
-                  }, 500);
-                } else {
-                  setTimeout(() => {
-                    scrollToTarget(targetElementHash, sliderElement);
-                    history.replaceState(null, null, ' ');
-                  }, 500);
-                }
+        
+                // Дожидаемся рендеринга элементов перед скроллом
+                requestAnimationFrame(() => {
+                  if (navElementPosition > 0) {
+                    window.scrollTo({
+                      top: window.scrollY + navElementPosition,
+                      behavior: 'smooth'
+                    });
+                    setTimeout(() => {
+                      scrollToTarget(targetElementHash, sliderElement, 20); // Добавляем корректировку
+                      history.replaceState(null, null, ' ');
+                    }, 500);
+                  } else {
+                    setTimeout(() => {
+                      scrollToTarget(targetElementHash, sliderElement, 20); // Добавляем корректировку
+                      history.replaceState(null, null, ' ');
+                    }, 500);
+                  }
+                });
+              }
             }
-          }
-      
-        }, 100);
+          }, 100);
+        });
         
         
         
