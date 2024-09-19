@@ -7329,8 +7329,8 @@
             const sliderWrapper = document.querySelector(".our-serv__slider-wr");
             function scrollToTarget(targetElement, sliderElement, adjustment = 0) {
                 const sliderRect = sliderElement.getBoundingClientRect();
-                const sliderCenter = window.scrollY + sliderRect.top + sliderRect.height / 2;
                 const targetRect = targetElement.getBoundingClientRect();
+                const sliderCenter = window.scrollY + sliderRect.top + sliderRect.height / 2;
                 const targetCenter = window.scrollY + targetRect.top + targetRect.height / 2;
                 const correction = targetCenter - sliderCenter;
                 window.scrollTo({
@@ -7340,7 +7340,9 @@
                 requestAnimationFrame((() => {
                     const newTargetRect = targetElement.getBoundingClientRect();
                     const newTargetCenter = window.scrollY + newTargetRect.top + newTargetRect.height / 2;
-                    const newCorrection = newTargetCenter - sliderCenter;
+                    const newSliderRect = sliderElement.getBoundingClientRect();
+                    const newSliderCenter = window.scrollY + newSliderRect.top + newSliderRect.height / 2;
+                    const newCorrection = newTargetCenter - newSliderCenter;
                     if (Math.abs(newCorrection) > 1) window.scrollTo({
                         top: window.scrollY + newCorrection + adjustment,
                         behavior: "smooth"
@@ -7388,37 +7390,28 @@
                     window.addEventListener("scroll", handleScrollEvents);
                     handleScrollEvents();
                 }
-                window.addEventListener("load", (() => {
-                    setTimeout((() => {
-                        const items = document.querySelectorAll(".our-serv__item");
-                        items.forEach((item => {
-                            const idValue = item.getAttribute("data-set-id");
-                            if (idValue) item.id = idValue;
-                        }));
-                        if (window.location.hash) {
-                            const hash = window.location.hash;
-                            const targetElementHash = document.querySelector(hash);
-                            if (targetElementHash) {
-                                const navElementPosition = navElement.getBoundingClientRect().top;
-                                requestAnimationFrame((() => {
-                                    if (navElementPosition > 0) {
-                                        window.scrollTo({
-                                            top: window.scrollY + navElementPosition,
-                                            behavior: "smooth"
-                                        });
-                                        setTimeout((() => {
-                                            scrollToTarget(targetElementHash, sliderElement, 20);
-                                            history.replaceState(null, null, " ");
-                                        }), 500);
-                                    } else setTimeout((() => {
-                                        scrollToTarget(targetElementHash, sliderElement, 20);
-                                        history.replaceState(null, null, " ");
-                                    }), 500);
-                                }));
-                            }
-                        }
-                    }), 100);
+                const items = document.querySelectorAll(".our-serv__item");
+                items.forEach((item => {
+                    const idValue = item.getAttribute("data-set-id");
+                    if (idValue) item.id = idValue;
                 }));
+                setTimeout((() => {
+                    if (window.location.hash) {
+                        const hash = window.location.hash;
+                        const targetElementHash = document.querySelector(hash);
+                        if (targetElementHash) requestAnimationFrame((() => {
+                            const navElementPosition = navElement.getBoundingClientRect().top;
+                            window.scrollTo({
+                                top: window.scrollY + navElementPosition,
+                                behavior: "smooth"
+                            });
+                            setTimeout((() => {
+                                scrollToTarget(targetElementHash, sliderElement, 0);
+                            }), 300);
+                            history.replaceState(null, null, " ");
+                        }));
+                    }
+                }), 0);
             }
             const faqBody = document.querySelector(".faq__body");
             if (faqBody) {
