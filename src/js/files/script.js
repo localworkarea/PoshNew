@@ -85,64 +85,121 @@ document.addEventListener("DOMContentLoaded", function() {
   // =====================================================================
 
 
+  // const splitTextLines = document.querySelectorAll('.split-lines');
+  // const splitTextWords = document.querySelectorAll('.split-words');
+  // const splitTextBoth = document.querySelectorAll('.split-both');
+
+  // if (splitTextLines.length > 0) {
+  //   splitTextLines.forEach(element => {
+  //     const splitText = new SplitType(element, { types: 'lines' });
+  
+  //     window.addEventListener("resize", function() {
+  //       splitText.split();
+  //     });
+  //   });
+  // }
+  // if (splitTextWords.length > 0) {
+  //   splitTextWords.forEach(element => {
+  //     const splitText = new SplitType(element, { types: 'words' });
+  
+  //     window.addEventListener("resize", function() {
+  //       splitText.split();
+  //     });
+  //   });
+  // }
+  // if (splitTextBoth.length > 0) {
+  //   splitTextBoth.forEach(element => {
+  //     const splitText = new SplitType(element, { types: 'lines, words' });
+  
+  //     window.addEventListener("resize", function() {
+  //       splitText.split();
+  //     });
+  //   });
+  // }
   const splitTextLines = document.querySelectorAll('.split-lines');
   const splitTextWords = document.querySelectorAll('.split-words');
   const splitTextBoth = document.querySelectorAll('.split-both');
-
-  if (splitTextLines.length > 0) {
-    splitTextLines.forEach(element => {
-      const splitText = new SplitType(element, { types: 'lines' });
+  const splitSetSpan = document.querySelectorAll('.split-words.set-span');
   
-      window.addEventListener("resize", function() {
-        splitText.split();
+  function initSplitType() {
+    // Если существуют элементы с классом .split-lines
+    if (splitTextLines.length > 0) {
+      splitTextLines.forEach(element => {
+        new SplitType(element, { types: 'lines' });
       });
-    });
-  }
-  if (splitTextWords.length > 0) {
-    splitTextWords.forEach(element => {
-      const splitText = new SplitType(element, { types: 'words' });
+    }
   
-      window.addEventListener("resize", function() {
-        splitText.split();
+    // Если существуют элементы с классом .split-words
+    if (splitTextWords.length > 0) {
+      splitTextWords.forEach(element => {
+        new SplitType(element, { types: 'words' });
+
+        // Проставляем индексы для всех слов
+        const words = element.querySelectorAll('.word');
+        words.forEach((word, index) => {
+          word.style.setProperty('--index', index);
+        });
       });
-    });
-  }
-  if (splitTextBoth.length > 0) {
-    splitTextBoth.forEach(element => {
-      const splitText = new SplitType(element, { types: 'lines, words' });
+    }
   
-      window.addEventListener("resize", function() {
-        splitText.split();
+    // Если существуют элементы с классом .split-both
+    if (splitTextBoth.length > 0) {
+      splitTextBoth.forEach(element => {
+        new SplitType(element, { types: 'lines, words' });
+
+        // Проставляем индексы для всех слов
+        const words = element.querySelectorAll('.word');
+        words.forEach((word, index) => {
+          word.style.setProperty('--index', index);
+        });
       });
-    });
+    }
+
+    // Добавляем <span> для каждого слова внутри .split-words.set-span
+    if (splitSetSpan.length > 0) {
+      splitSetSpan.forEach(splitSetSpan => {
+        const words = splitSetSpan.querySelectorAll('.word');
+        
+        words.forEach(word => {
+          const text = word.textContent.trim();
+          word.innerHTML = `<span class="word-span">${text}</span>`;
+        });
+      });
+    }
   }
+  
+  // Инициализация SplitType при загрузке
+  initSplitType();
 
-  // Функция для обновления индексов и расстановки их заново
-  const splitBoth = document.querySelectorAll('.split-both');
-  const splitWords = document.querySelectorAll('.split-words');
-  // const blockContents = document.querySelectorAll('.block-about__content');
 
-  function updateIndexes() {
+
+
+  // // Функция для обновления индексов и расстановки их заново
+  // const splitBoth = document.querySelectorAll('.split-both');
+  // const splitWords = document.querySelectorAll('.split-words');
+  // // const blockContents = document.querySelectorAll('.block-about__content');
+
+  // function updateIndexes() {
     
-    splitBoth.forEach((splitElement) => {
-      const words = splitElement.querySelectorAll('.word');
+  //   splitBoth.forEach((splitElement) => {
+  //     const words = splitElement.querySelectorAll('.word');
       
-      words.forEach((word, index) => {
-        word.style.setProperty('--index', index);
-      });
-    });
-    splitWords.forEach((splitElement) => {
-      const words = splitElement.querySelectorAll('.word');
+  //     words.forEach((word, index) => {
+  //       word.style.setProperty('--index', index);
+  //     });
+  //   });
+  //   splitWords.forEach((splitElement) => {
+  //     const words = splitElement.querySelectorAll('.word');
       
-      words.forEach((word, index) => {
-        word.style.setProperty('--index', index);
-      });
-    });
-  }
+  //     words.forEach((word, index) => {
+  //       word.style.setProperty('--index', index);
+  //     });
+  //   });
+  // }
   
-  if (splitBoth || splitWords) {
-    updateIndexes();
-  }
+  // if (splitBoth || splitWords) {
+  //   updateIndexes();
+  // }
   
 
     // ИНДЕКСЫ ДЛЯ TRANSITION-DELAY (блок services-main) ========================================================
@@ -156,18 +213,37 @@ document.addEventListener("DOMContentLoaded", function() {
       leftItems.forEach((item, index) => {
         item.style.setProperty('--index', index);
       });
-      brandsRelationship.forEach((item, index) => {
-        item.style.setProperty('--index', index);
-      });
-    
+      
+      const isWideScreen = window.matchMedia('(min-width: 30.061em)').matches;
+      if (isWideScreen) {
+        brandsRelationship.forEach((item, index) => {
+          item.style.setProperty('--index', index);
+        });
+      }
+      
       rightItems.forEach((item, index) => {
         item.style.setProperty('--index', startIndex + index);
       });
     }
     
+    function updateIndexesRel() {
+      const brandsRelationship = document.querySelectorAll('.relationship__brand');
+      if (brandsRelationship.length > 0) {
+        const isWideScreen = window.matchMedia('(min-width: 30.061em)').matches;
+      
+        brandsRelationship.forEach((item, index) => {
+          if (isWideScreen) {
+            item.style.setProperty('--index', index);
+          } else {
+            item.style.removeProperty('--index'); 
+          }
+        });
+
+      }
+    }
+
 
     const splitWordsElements = document.querySelectorAll('.split-words.txt-anim');
-  
     function createSpanInWord() {
       if (splitWordsElements) {
         splitWordsElements.forEach(splitWordsElement => {
@@ -183,10 +259,29 @@ document.addEventListener("DOMContentLoaded", function() {
     createSpanInWord();
 
      // Добавление слушателя события resize к окну
-  window.addEventListener("resize", function() {
-    createSpanInWord();
-    updateIndexes();
-  });
+    // window.addEventListener("resize", function() {
+    //   createSpanInWord();
+    //   updateIndexes();
+    // });
+
+    let lastWidth = window.innerWidth;
+    const resizeObserver = new ResizeObserver(entries => {
+        requestAnimationFrame(() => {
+            entries.forEach(entry => {
+                const currentWidth = entry.contentRect.width;
+                // Запускаем initSplitType() только если изменилась ширина
+                if (currentWidth !== lastWidth) {
+                  initSplitType();
+                  createSpanInWord();
+                  updateIndexesRel(); // Вызов функции обновления индексов
+                  // updateIndexes();
+                    lastWidth = currentWidth; // Обновляем lastWidth
+                }
+            });
+        });
+    });
+    // Наблюдаем за изменениями в элементе body
+    resizeObserver.observe(document.body);
 
     // HOVER HEADER - OPACITY HERO SECTION VIDEO ==============================================================
     const header = document.querySelector('header');
@@ -873,7 +968,7 @@ document.addEventListener("DOMContentLoaded", function() {
           if (window.location.hash) {
             const hash = window.location.hash;
             const targetElementHash = document.querySelector(hash);
-        
+            
             if (targetElementHash) {
               requestAnimationFrame(() => {
                 const navElementPosition = navElement.getBoundingClientRect().top;
@@ -882,7 +977,7 @@ document.addEventListener("DOMContentLoaded", function() {
                   top: window.scrollY + navElementPosition,
                   behavior: 'smooth'
                 });
-
+                
                 setTimeout(() => {
                   scrollToTarget(targetElementHash, sliderElement, 0);
                 }, 300);
@@ -930,23 +1025,170 @@ document.addEventListener("DOMContentLoaded", function() {
   const tikers = document.querySelectorAll(".tiker");
   tikers.forEach((tiker) => {
     const originalLine = tiker.querySelector(".tiker__line");
-  
+
     if (originalLine) {
+      // Определение анимации для различных классов тикера
       if (tiker.classList.contains("tiker-01")) {
-        originalLine.style.animation = "scroll 40s linear infinite";
-      }
-      if (tiker.classList.contains("tiker-02")) {
-        originalLine.style.animation = "scroll-rev 40s linear infinite";
-      }
-      if (tiker.classList.contains("tiker-03")) {
         originalLine.style.animation = "scroll 50s linear infinite";
+      } else if (tiker.classList.contains("tiker-02")) {
+        originalLine.style.animation = "scroll-rev 50s linear infinite";
+      } else if (tiker.classList.contains("tiker-03")) {
+        originalLine.style.animation = "scroll 60s linear infinite";
       }
+
+      // Клонирование линии
       const clonedLine = originalLine.cloneNode(true);
       clonedLine.classList.add("clone-line");
-  
+
+      // Проверка на наличие тега <h1> и замена его на <div> в клоне
+      const h1Element = clonedLine.querySelector("h1");
+      if (h1Element) {
+        const divElement = document.createElement("div");
+        divElement.className = h1Element.className;
+        divElement.innerHTML = h1Element.innerHTML;
+        h1Element.replaceWith(divElement);
+      }
+
       tiker.appendChild(clonedLine);
     }
   });
+
+
+//   const relTikerWr = document.querySelector(".relationship__tikers");
+// if (relTikerWr) {
+//   const relTiker = document.querySelector(".relationship__tiker");
+//   const relBrands = document.querySelector(".relationship__brands");
+
+//   let clonedLineR = null;
+
+//   function handleResize() {
+//     const isWideScreen = window.matchMedia('(max-width: 30.061em)').matches;
+
+//     if (isWideScreen) { 
+//       relBrands.style.animation = "scroll 20s linear infinite";
+//       if (!clonedLineR) { 
+//         clonedLineR = relBrands.cloneNode(true);
+//         clonedLineR.classList.add("clone-line");
+
+//         // Удаление атрибутов только с клонированного элемента relationship__brands
+//         const attributesToRemove = ["data-watch", "data-watch-once", "data-watch-threshold"];
+//         attributesToRemove.forEach(attr => {
+//           if (clonedLineR.hasAttribute(attr)) {
+//             clonedLineR.removeAttribute(attr);
+//           }
+//         });
+//         clonedLineR.setAttribute("aria-hidden", "true");
+
+//         relTiker.appendChild(clonedLineR);
+//       }
+//     } else {
+//       relBrands.style = "";
+//       if (clonedLineR) { 
+//         clonedLineR.remove();
+//         clonedLineR = null;
+//       }
+//     }
+//   }
+
+//   handleResize();
+
+//   let lastWidth = window.innerWidth;
+//   const resizeObserver = new ResizeObserver(entries => {
+//     requestAnimationFrame(() => {
+//       entries.forEach(entry => {
+//         const currentWidth = entry.contentRect.width;
+//         if (currentWidth !== lastWidth) {
+//           handleResize();
+//           lastWidth = currentWidth;
+//         }
+//       });
+//     });
+//   });
+
+//   resizeObserver.observe(document.body);
+// }
+
+
+const relTikerWr = document.querySelector(".relationship__tikers");
+if (relTikerWr) {
+  const relTiker = document.querySelector(".relationship__tiker");
+  const relBrands = document.querySelector(".relationship__brands");
+
+  let clonedLineR = null;
+
+  function handleResize() {
+    const isWideScreen = window.matchMedia('(max-width: 30.061em)').matches;
+
+    if (isWideScreen) { 
+      relBrands.style.animation = "scroll 80s linear infinite";
+      // Удаление атрибутов только с клонированного элемента relationship__brands
+      const attributesToRemove = ["data-watch", "data-watch-once", "data-watch-threshold"];
+      attributesToRemove.forEach(attr => {
+        if (relBrands.hasAttribute(attr)) {
+          relBrands.removeAttribute(attr);
+        }
+      });
+     
+      if (!clonedLineR) { 
+        clonedLineR = relBrands.cloneNode(true);
+        clonedLineR.classList.add("clone-line");
+
+        clonedLineR.setAttribute("aria-hidden", "true");
+
+        relTiker.appendChild(clonedLineR);
+      }
+
+       // Клонирование relTiker и добавление 3 копий в конец relTikerWr
+       const existingClones = relTikerWr.querySelectorAll(".relationship__tiker.clone-tiker");
+       if (existingClones.length === 0) { 
+         for (let i = 0; i < 3; i++) {
+           const clonedTiker = relTiker.cloneNode(true);
+           clonedTiker.classList.add("clone-tiker");
+ 
+           if (i % 2 === 0) {
+             const clonedBrands = clonedTiker.querySelectorAll(".relationship__brands");
+             clonedBrands.forEach(brand => {
+               brand.style.animation = "scroll-rev 100s linear infinite";
+             });
+           }
+ 
+           relTikerWr.appendChild(clonedTiker);
+         }
+       }
+
+    } else {
+      relBrands.style = "";
+
+      // Удаляем клонированную линию
+      if (clonedLineR) { 
+        clonedLineR.remove();
+        clonedLineR = null;
+      }
+
+      // Удаляем клонированные тикеры
+      const clones = relTikerWr.querySelectorAll(".relationship__tiker.clone-tiker");
+      clones.forEach(clone => clone.remove());
+    }
+  }
+
+  handleResize();
+
+  let lastWidth = window.innerWidth;
+  const resizeObserver = new ResizeObserver(entries => {
+    requestAnimationFrame(() => {
+      entries.forEach(entry => {
+        const currentWidth = entry.contentRect.width;
+        if (currentWidth !== lastWidth) {
+          handleResize();
+          lastWidth = currentWidth;
+        }
+      });
+    });
+  });
+
+  resizeObserver.observe(document.body);
+}
+
 
 
 

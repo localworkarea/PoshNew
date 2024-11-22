@@ -6928,47 +6928,40 @@
             const splitTextLines = document.querySelectorAll(".split-lines");
             const splitTextWords = document.querySelectorAll(".split-words");
             const splitTextBoth = document.querySelectorAll(".split-both");
-            if (splitTextLines.length > 0) splitTextLines.forEach((element => {
-                const splitText = new SplitType(element, {
-                    types: "lines"
-                });
-                window.addEventListener("resize", (function() {
-                    splitText.split();
+            const splitSetSpan = document.querySelectorAll(".split-words.set-span");
+            function initSplitType() {
+                if (splitTextLines.length > 0) splitTextLines.forEach((element => {
+                    new SplitType(element, {
+                        types: "lines"
+                    });
                 }));
-            }));
-            if (splitTextWords.length > 0) splitTextWords.forEach((element => {
-                const splitText = new SplitType(element, {
-                    types: "words"
-                });
-                window.addEventListener("resize", (function() {
-                    splitText.split();
-                }));
-            }));
-            if (splitTextBoth.length > 0) splitTextBoth.forEach((element => {
-                const splitText = new SplitType(element, {
-                    types: "lines, words"
-                });
-                window.addEventListener("resize", (function() {
-                    splitText.split();
-                }));
-            }));
-            const splitBoth = document.querySelectorAll(".split-both");
-            const splitWords = document.querySelectorAll(".split-words");
-            function updateIndexes() {
-                splitBoth.forEach((splitElement => {
-                    const words = splitElement.querySelectorAll(".word");
+                if (splitTextWords.length > 0) splitTextWords.forEach((element => {
+                    new SplitType(element, {
+                        types: "words"
+                    });
+                    const words = element.querySelectorAll(".word");
                     words.forEach(((word, index) => {
                         word.style.setProperty("--index", index);
                     }));
                 }));
-                splitWords.forEach((splitElement => {
-                    const words = splitElement.querySelectorAll(".word");
+                if (splitTextBoth.length > 0) splitTextBoth.forEach((element => {
+                    new SplitType(element, {
+                        types: "lines, words"
+                    });
+                    const words = element.querySelectorAll(".word");
                     words.forEach(((word, index) => {
                         word.style.setProperty("--index", index);
+                    }));
+                }));
+                if (splitSetSpan.length > 0) splitSetSpan.forEach((splitSetSpan => {
+                    const words = splitSetSpan.querySelectorAll(".word");
+                    words.forEach((word => {
+                        const text = word.textContent.trim();
+                        word.innerHTML = `<span class="word-span">${text}</span>`;
                     }));
                 }));
             }
-            if (splitBoth || splitWords) updateIndexes();
+            initSplitType();
             const leftItems = document.querySelectorAll(".items-serv-left__item");
             const rightItems = document.querySelectorAll(".items-serv-right__item");
             const brandsRelationship = document.querySelectorAll(".relationship__brand");
@@ -6978,12 +6971,22 @@
                 leftItems.forEach(((item, index) => {
                     item.style.setProperty("--index", index);
                 }));
-                brandsRelationship.forEach(((item, index) => {
+                const isWideScreen = window.matchMedia("(min-width: 30.061em)").matches;
+                if (isWideScreen) brandsRelationship.forEach(((item, index) => {
                     item.style.setProperty("--index", index);
                 }));
                 rightItems.forEach(((item, index) => {
                     item.style.setProperty("--index", startIndex + index);
                 }));
+            }
+            function updateIndexesRel() {
+                const brandsRelationship = document.querySelectorAll(".relationship__brand");
+                if (brandsRelationship.length > 0) {
+                    const isWideScreen = window.matchMedia("(min-width: 30.061em)").matches;
+                    brandsRelationship.forEach(((item, index) => {
+                        if (isWideScreen) item.style.setProperty("--index", index); else item.style.removeProperty("--index");
+                    }));
+                }
             }
             const splitWordsElements = document.querySelectorAll(".split-words.txt-anim");
             function createSpanInWord() {
@@ -6996,10 +6999,21 @@
                 }));
             }
             createSpanInWord();
-            window.addEventListener("resize", (function() {
-                createSpanInWord();
-                updateIndexes();
+            let lastWidth = window.innerWidth;
+            const resizeObserver = new ResizeObserver((entries => {
+                requestAnimationFrame((() => {
+                    entries.forEach((entry => {
+                        const currentWidth = entry.contentRect.width;
+                        if (currentWidth !== lastWidth) {
+                            initSplitType();
+                            createSpanInWord();
+                            updateIndexesRel();
+                            lastWidth = currentWidth;
+                        }
+                    }));
+                }));
             }));
+            resizeObserver.observe(document.body);
             const header = document.querySelector("header");
             const heroBg = document.querySelector(".hero__bg");
             const heroBody = document.querySelector(".hero__body");
@@ -7430,14 +7444,75 @@
         tikers.forEach((tiker => {
             const originalLine = tiker.querySelector(".tiker__line");
             if (originalLine) {
-                if (tiker.classList.contains("tiker-01")) originalLine.style.animation = "scroll 40s linear infinite";
-                if (tiker.classList.contains("tiker-02")) originalLine.style.animation = "scroll-rev 40s linear infinite";
-                if (tiker.classList.contains("tiker-03")) originalLine.style.animation = "scroll 50s linear infinite";
+                if (tiker.classList.contains("tiker-01")) originalLine.style.animation = "scroll 50s linear infinite"; else if (tiker.classList.contains("tiker-02")) originalLine.style.animation = "scroll-rev 50s linear infinite"; else if (tiker.classList.contains("tiker-03")) originalLine.style.animation = "scroll 60s linear infinite";
                 const clonedLine = originalLine.cloneNode(true);
                 clonedLine.classList.add("clone-line");
+                const h1Element = clonedLine.querySelector("h1");
+                if (h1Element) {
+                    const divElement = document.createElement("div");
+                    divElement.className = h1Element.className;
+                    divElement.innerHTML = h1Element.innerHTML;
+                    h1Element.replaceWith(divElement);
+                }
                 tiker.appendChild(clonedLine);
             }
         }));
+        const relTikerWr = document.querySelector(".relationship__tikers");
+        if (relTikerWr) {
+            const relTiker = document.querySelector(".relationship__tiker");
+            const relBrands = document.querySelector(".relationship__brands");
+            let clonedLineR = null;
+            function handleResize() {
+                const isWideScreen = window.matchMedia("(max-width: 30.061em)").matches;
+                if (isWideScreen) {
+                    relBrands.style.animation = "scroll 80s linear infinite";
+                    const attributesToRemove = [ "data-watch", "data-watch-once", "data-watch-threshold" ];
+                    attributesToRemove.forEach((attr => {
+                        if (relBrands.hasAttribute(attr)) relBrands.removeAttribute(attr);
+                    }));
+                    if (!clonedLineR) {
+                        clonedLineR = relBrands.cloneNode(true);
+                        clonedLineR.classList.add("clone-line");
+                        clonedLineR.setAttribute("aria-hidden", "true");
+                        relTiker.appendChild(clonedLineR);
+                    }
+                    const existingClones = relTikerWr.querySelectorAll(".relationship__tiker.clone-tiker");
+                    if (existingClones.length === 0) for (let i = 0; i < 3; i++) {
+                        const clonedTiker = relTiker.cloneNode(true);
+                        clonedTiker.classList.add("clone-tiker");
+                        if (i % 2 === 0) {
+                            const clonedBrands = clonedTiker.querySelectorAll(".relationship__brands");
+                            clonedBrands.forEach((brand => {
+                                brand.style.animation = "scroll-rev 100s linear infinite";
+                            }));
+                        }
+                        relTikerWr.appendChild(clonedTiker);
+                    }
+                } else {
+                    relBrands.style = "";
+                    if (clonedLineR) {
+                        clonedLineR.remove();
+                        clonedLineR = null;
+                    }
+                    const clones = relTikerWr.querySelectorAll(".relationship__tiker.clone-tiker");
+                    clones.forEach((clone => clone.remove()));
+                }
+            }
+            handleResize();
+            let lastWidth = window.innerWidth;
+            const resizeObserver = new ResizeObserver((entries => {
+                requestAnimationFrame((() => {
+                    entries.forEach((entry => {
+                        const currentWidth = entry.contentRect.width;
+                        if (currentWidth !== lastWidth) {
+                            handleResize();
+                            lastWidth = currentWidth;
+                        }
+                    }));
+                }));
+            }));
+            resizeObserver.observe(document.body);
+        }
         let galleryItems = [];
         function initGalleries() {
             const galleries = document.querySelectorAll("[data-gallery]");

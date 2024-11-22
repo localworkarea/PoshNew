@@ -1,0 +1,35 @@
+.fp-init body {
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+[data-fp] {
+  min-height: 100svh;
+}
+.fp-init [data-fp] {
+  z-index: 1;
+  touch-action: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.fp-switching [data-fp-section] {
+  touch-action: none;
+}
+.fp-init [data-fp-section] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.fp-init .slider-mode [data-fp-section], .fp-init .cards-mode [data-fp-section] {
+  transition: transform 0.7s cubic-bezier(0.55, 0.085, 0, 0.99) 0s;
+}
+.fp-init .fade-mode [data-fp-section] {
+  transition: opacity 0.5s ease-in-out 0s, visibility 0.5s ease-in-out 0s;
+}

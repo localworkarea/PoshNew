@@ -18,14 +18,14 @@
     opacity: 0;
     .loaded & {
       opacity: 1;
-      transition: min-height .5s, background-color .5s, transform .6s ease, top .6s ease, opacity 1.5s ease 2s, clip-path 1.5s ease;
-      // clip-path: inset(0 0 0 0);
+      @media (min-width:$mobileSmall){
+        transition: min-height .5s, background-color .5s, transform .6s ease, top .6s ease, opacity 1.5s ease 2s, clip-path 1.5s ease;
+      }
+      @media (min-width:$mobileSmall){
+        transition: min-height .5s, background-color .5s, transform .6s ease, top .6s ease, opacity 1.2s ease 1s, clip-path 1.5s ease;
+      }
     }
   }
-  // .loaded & {
-  //      opacity: 1;
-  //     transition: min-height .5s, background-color .5s, transform .6s ease, top .6s ease, opacity 0.5s ease 0s, clip-path 1.5s ease;
-  // }
 
   .page-main & {
     background-color: transparent;
@@ -157,10 +157,12 @@
         grid-template-rows: auto 1fr auto;
 
         background-color: $darkBlue;
+        opacity: 0;
         clip-path: inset(0 0 100% 0);
         transition: clip-path .55s ;
 
         .menu-open & {
+          opacity: 1;
           clip-path: inset(0 0 0 0);
           pointer-events: all;
         }

@@ -2,6 +2,12 @@ body {
   background-color: $darkBlue;
 }
 
+// == Mont - footer, tiker, hero-txt
+p {
+  font-family: "HelveticaNeueRoman", sans-serif;
+}
+// =========
+
 .hover-line {
   position: relative;
   &::before {
@@ -223,7 +229,7 @@ body {
 }
 %aboutMrTopBot {
   @include adaptiveValue("margin-top", 200, 50,0,1366.98,480.98);
-  @include adaptiveValue("margin-bottom", 200, 50,0,1366.98,480.98);
+  @include adaptiveValue("margin-bottom", 200, 60,0,1366.98,480.98);
 }
 %mb30 {
   margin-bottom: toRem(30);
@@ -368,6 +374,7 @@ body {
   }
 }
 
+
 .btn-mask {
   position: relative;
   display: flex;
@@ -471,13 +478,16 @@ body {
       }
     }
     .btn-mask--05 & {
-      @include adaptiveValue("height", 40, 37,2,1920,1366.98);
-      @include adaptiveValue("height", 37,30,3,1366.98,480.98);
-
-      @include adaptiveValue("gap", 12, 11,2,1920,1366.98);
-      @include adaptiveValue("gap", 11, 9,3,1366.98,480.98);
-      @include adaptiveValue("padding-left", 18, 14,0,1520,480.98);
-      @include adaptiveValue("padding-right", 18, 14,0,1520,480.98);
+      height: toRem(40);
+      gap: toRem(12);
+      padding-left: toRem(18);
+      padding-right: toRem(18);
+      // @include adaptiveValue("height", 40, 37,2,1920,1366.98);
+      // @include adaptiveValue("height", 37,30,3,1366.98,480.98);
+      // @include adaptiveValue("gap", 12, 11,2,1920,1366.98);
+      // @include adaptiveValue("gap", 11, 9,3,1366.98,480.98);
+      // @include adaptiveValue("padding-left", 18, 14,0,1520,480.98);
+      // @include adaptiveValue("padding-right", 18, 14,0,1520,480.98);
     }
 
     &.btn-mask-clone {
@@ -533,7 +543,8 @@ body {
     }
     .btn-mask--05 & {
       padding-top: toRem(2);
-      @include adaptiveValue("font-size", 16, 12,0,1720,480.98);
+      font-size: toRem(16);
+      // @include adaptiveValue("font-size", 16, 12,0,1720,480.98);
     }
   }
   // .btn-mask__arr-r
@@ -557,7 +568,8 @@ body {
       filter: invert(100%) sepia(0%) saturate(7427%) hue-rotate(314deg) brightness(125%) contrast(99%);
     }
     .btn-mask--05 & {
-      @include adaptiveValue("width", 12, 9,0,1366,480.98);
+      width: toRem(12);
+      // @include adaptiveValue("width", 12, 9,0,1366,480.98);
     }
   }
 }
@@ -594,23 +606,28 @@ body {
   }
 }
 
+// == .items-serv-right =================================
 .btn-change {
   position: relative;
   max-width: fit-content;
   display: flex;
   align-items: center;
 
-  @include adaptiveValue("gap", 10.4, 9,3,900.98,480.98);
-  @include adaptiveValue("height", 34.7, 30,3,900.98,480.98);
-  @include adaptiveValue("padding-left", 16, 14,3,900.98,480.98);
-  @include adaptiveValue("padding-right", 16, 14,3,900.98,480.98);
+  height: toRem(40);
+  gap: toRem(10);
+
+  // @include adaptiveValue("gap", 10.4, 9,3,900.98,480.98);
+  // @include adaptiveValue("height", 34.7, 30,3,900.98,480.98);
+  // @include adaptiveValue("padding-left", 16, 14,3,900.98,480.98);
+  // @include adaptiveValue("padding-right", 16, 14,3,900.98,480.98);
 
   @media (min-width: em(900.98)){
     gap: toRem(5);
     &::before {
       content:'';
       position: absolute;
-      bottom: toRem(3);
+      // bottom: toRem(3);
+      bottom: toRem(6);
       left: 0;
       width: 0;
       height: toRem(1);
@@ -631,17 +648,22 @@ body {
   @media (max-width: em(900.98)){
     border-radius: toRem(25);
     border: toRem(1) solid $darkBlue;
+
+    padding-left: toRem(16);
+    padding-right: toRem(16);
   }
   // .btn-change__txt
   &__txt {
     display: block;
     white-space: nowrap;
-    @include adaptiveValue("font-size", 18, 16,2,1920,900.98);
+    // @include adaptiveValue("font-size", 18, 16,2,1920,900.98);
+    // @include adaptiveValue("font-size", 13.6,12,3,900.98,480.98 );
     @media (min-width: em(900.98)){
+      font-size: toRem(18);
       line-height: 1.86;
     }
-    @include adaptiveValue("font-size", 13.6,12,3,900.98,480.98 );
     @media (max-width: em(900.98)){
+      font-size: toRem(16);
       text-transform: uppercase;
       line-height: normal;
       padding-top: toRem(2);
@@ -649,14 +671,18 @@ body {
   }
   // .btn-change__arr
   &__arr {
-    width: toRem(10);
     height: auto;
     @media (min-width: em(900.98)){
+      width: toRem(10);
       opacity: 0;
       transition: transform .35s ease 0s, opacity .35s ease 0s;
     }
+    @media (max-width: em(900.98)){
+      width: toRem(12);
+    }
   }
 }
+// ---------------------
 
 @keyframes arr-right {
   0% {
@@ -690,8 +716,8 @@ body {
   color: $mainWhite;
   font-weight: 400;
   line-height: normal;
-  @include adaptiveValue("font-size", 16, 14,2,1920,1366.98);
-  @include adaptiveValue("font-size", 14, 18,3,1366.98,480.98);
+  @include adaptiveValue("font-size", 18, 16,2,1920,1366.98);
+  @include adaptiveValue("font-size", 16, 18,3,1366.98,480.98);
 }
 
 .title-x {
@@ -720,6 +746,9 @@ body {
   align-items: center;
   position: relative;
   z-index: 3;
+  p {
+    font-family: "Mont",sans-serif;
+  }
   &.tiker-blue {
     background-color: $lightBlue;
     color: $mainWhite;
@@ -750,11 +779,9 @@ body {
     text-transform: uppercase;
     display: flex;
     align-items: center;
-    @include adaptiveValue("font-size", 58, 50,2,1366,1366.98);
+    @include adaptiveValue("font-size", 58, 50,2,1920,1366.98);
     @include adaptiveValue("font-size", 50, 37,3,1366.98,480);
     @include adaptiveValue("gap", 20, 15,0,1280,480.98);
-    @include adaptiveValue("padding-left", 30, 15,0,1280,480.98);
-    @include adaptiveValue("padding-right", 30, 15,0,1280,480.98);
   }
 	// .tiker__img
 	&__img {
@@ -762,7 +789,40 @@ body {
     display: block;
     height: 100%;
     
-    .tiker-01 & {
+    // .tiker-01 & {
+    //   @include adaptiveValue("width", 96, 65,0,1920,480.98);
+    //   img {
+    //     position: absolute;
+    //     bottom: toRem(5);
+    //     left: 0;
+    //     width: 100%;
+    //     height: auto;
+    //     @media (max-width:$mobileSmall){
+    //        bottom: toRem(8); 
+    //     }
+    //   }
+    // }
+   
+    .tiker-01 &,
+    .tiker-02 &,
+    .tiker-03 & {
+      @include adaptiveValue("height", 58, 50,2,1920,1366.98);
+      @include adaptiveValue("height", 50, 37,3,1366.98,480);
+      // @include adaptiveValue("width", 72, 42,0,1366.98,480.98);
+      img {
+        // height: auto;
+        // position: absolute;
+        // left: 0;
+        // top: 50%;
+        // transform: translate(0, -50%);
+        // @include adaptiveValue("width", 72, 42,0,1366.98,480.98);
+        position: relative;
+        bottom: 8%;
+        height: 100%;
+        width: auto;
+      }
+    }
+    .about-main__tiker & {
       @include adaptiveValue("width", 96, 65,0,1920,480.98);
       img {
         position: absolute;
@@ -773,28 +833,6 @@ body {
         @media (max-width:$mobileSmall){
            bottom: toRem(8); 
         }
-      }
-    }
-    .tiker-02 &,
-    .tiker-03 & {
-      img {
-        height: auto;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translate(0, -50%);
-      }
-    }
-    .tiker-02 & {
-      @include adaptiveValue("width", 72, 42,0,1366.98,480.98);
-      img {
-        @include adaptiveValue("width", 72, 42,0,1366.98,480.98);
-      }
-    }
-    .tiker-03 & {
-      @include adaptiveValue("width", 39, 23,0,1366.98,480.98);
-      img {
-        @include adaptiveValue("width", 39, 23,0,1366.98,480.98);
       }
     }
 	}
@@ -1051,8 +1089,20 @@ body {
        margin-bottom: toRem(54); 
     }
     .tiker__item {
-      @include adaptiveValue("font-size", 78, 58,2,1366,1366.98);
+      @include adaptiveValue("font-size", 78, 58,2,1920,1366.98);
       @include adaptiveValue("font-size", 58, 37,3,1366.98,480);
+      
+    }
+    .tiker__img {
+      // width: unset !important;
+      @include adaptiveValue("height", 78, 58,2,1920,1366.98);
+      @include adaptiveValue("height", 58, 37,3,1366.98,480);
+      img {
+        position: relative;
+        bottom: 8%;
+        height: 100%;
+        width: auto;
+      }
     }
   }
 }

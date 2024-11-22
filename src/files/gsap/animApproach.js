@@ -292,6 +292,8 @@ document.addEventListener("DOMContentLoaded", function() {
           timeline.to({}, {
             duration: scrollDuration / 500,
             onUpdate: function() {
+              boxCookieItem.classList.add('not-active');
+
               let progress = this.progress();
               let index = Math.floor(progress * (boxItems.length - 1));
               boxItems.forEach((boxItem, i) => {
@@ -301,6 +303,10 @@ document.addEventListener("DOMContentLoaded", function() {
                   boxItem.classList.remove('active');
                 }
               });
+
+              if (progress === 0) {
+                boxCookieItem.classList.remove('not-active');
+              }
             }
           });
 
@@ -314,8 +320,9 @@ document.addEventListener("DOMContentLoaded", function() {
           timeline.to({}, {
             duration: scrollDuration / 100,
             onUpdate: function() {
-              boxCookieItem.classList.add('not-active');
+              // boxCookieItem.classList.add('not-active');
               cookiesWrapper.classList.add('not-active');
+              boxItemWr.classList.add('not-active');
               stepsPin.classList.add('active');
               boxSteps.classList.add('active');
             
@@ -342,8 +349,9 @@ document.addEventListener("DOMContentLoaded", function() {
               });
             
               if (progress === 0) {
-                boxCookieItem.classList.remove('not-active');
+                // boxCookieItem.classList.remove('not-active');
                 cookiesWrapper.classList.remove('not-active');
+                boxItemWr.classList.remove('not-active');
                 stepsPin.classList.remove('active');
                 boxSteps.classList.remove('active');
                 stepsItems[0].classList.remove('active');
@@ -595,6 +603,8 @@ document.addEventListener("DOMContentLoaded", function() {
             timeline.to({}, {
               duration: scrollDuration / 100,
               onUpdate: function() {
+                boxCookieItem.classList.add('not-active');
+
                 let progress = this.progress();
                 let index = Math.floor(progress * (boxItems.length - 1));
                 boxItems.forEach((boxItem, i) => {
@@ -604,6 +614,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     boxItem.classList.remove('active');
                   }
                 });
+
+                if (progress === 0) {
+                  boxCookieItem.classList.remove('not-active');
+                }
               }
             }, `-=${scrollDuration / 3500}`);
   
@@ -620,8 +634,9 @@ document.addEventListener("DOMContentLoaded", function() {
               timeline.to({}, {
                 duration: scrollDuration / 10,
                 onStart: function() {
-                  boxCookieItem.classList.add('not-active');
+                  // boxCookieItem.classList.add('not-active');
                   cookiesWrapper.classList.add('not-active');
+                  boxItemWr.classList.add('not-active');
                   stepsPin.classList.add('active');
                   boxSteps.classList.add('active');
                 },
@@ -684,8 +699,9 @@ document.addEventListener("DOMContentLoaded", function() {
                   // Обработка начального состояния
                   if (progress === 0) {
                     // boxCookie.classList.remove('not-active');
-                    boxCookieItem.classList.remove('not-active');
+                    // boxCookieItem.classList.remove('not-active');
                     cookiesWrapper.classList.remove('not-active');
+                    boxItemWr.classList.remove('not-active');
                     // boxItemWr.classList.remove('not-active');
                     stepsPin.classList.remove('active');
                     boxSteps.classList.remove('active');
