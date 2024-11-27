@@ -7307,7 +7307,15 @@
                             top: topOffset,
                             behavior: "auto"
                         });
-                        filterPartnersTitle.textContent = filterItem.textContent;
+                        const buttonText = filterItem.textContent.trim();
+                        if (window.innerWidth < 480) {
+                            const firstSpaceIndex = buttonText.indexOf(" ");
+                            if (firstSpaceIndex !== -1) {
+                                const firstWord = buttonText.slice(0, firstSpaceIndex);
+                                const restText = buttonText.slice(firstSpaceIndex + 1);
+                                filterPartnersTitle.innerHTML = `${firstWord}<br>${restText}`;
+                            } else filterPartnersTitle.textContent = buttonText;
+                        } else filterPartnersTitle.textContent = buttonText;
                         e.preventDefault();
                     }
                 }

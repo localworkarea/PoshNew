@@ -2772,7 +2772,6 @@ p {
   text-align: left;
   row-gap: 1.5625rem;
   min-height: 20rem;
-  padding: .875rem 1.5rem 1.75rem;
   margin: 1.25rem
 }
 .item-partners a {
@@ -2790,6 +2789,7 @@ p {
   justify-content: center
 }
 .item-partners__body p {
+  max-width: 33ch;
   line-height: 1.2;
   font-size: .875rem
 }
@@ -2867,10 +2867,12 @@ p {
 .faq__title-b {
   line-height: 1.1;
   text-transform: uppercase;
-  font-size: 2.0625rem
+  font-size: 2.0625rem;
+  max-width: 19ch
 }
 .faq__txt {
-  line-height: 1.3
+  line-height: 1.3;
+  max-width: 32ch
 }
 ._form-open .faq__link {
   pointer-events: none;
@@ -4774,11 +4776,6 @@ p {
     padding-right: 1.5rem
   }
 }
-@media (min-width:23.49875em)and (max-height:68.81125em) {
-  .about-main__wrapper {
-    min-height: calc(100svh + 1.25rem)
-  }
-}
 @media (min-width:30.06125em) {
   .popup-case {
     padding-left: 3vw;
@@ -5245,6 +5242,7 @@ p {
     font-size: 1.125rem
   }
   .item-partners {
+    padding: .875rem 1.5rem 1.75rem;
     border-radius: 1.5625rem
   }
   .clients__list {
@@ -5258,9 +5256,6 @@ p {
   }
   .clients__item:hover p::before {
     opacity: 1
-  }
-  .faq__txt {
-    max-width: 80%
   }
   .faq__body,
   .form-faq,
@@ -6042,6 +6037,9 @@ p {
     align-items: center;
     justify-content: center
   }
+  .about-main__wrapper {
+    padding-top: 30vh
+  }
   .about-main__container {
     padding-bottom: 11.25rem;
     display: grid;
@@ -6125,14 +6123,9 @@ p {
     margin-bottom: 6.125rem
   }
 }
-@media (min-width:62.06125em)and (min-height:68.81125em) {
+@media (min-width:62.06125em)and (orientation:landscape) {
   .about-main__wrapper {
-    justify-content: center;
-    padding-top: 20vh
-  }
-}
-@media (min-width:62.06125em)and (max-height:68.81125em) {
-  .about-main__wrapper {
+    min-height: calc(100svh + 1.25rem);
     padding-top: 30vh;
     justify-content: flex-end
   }
@@ -6143,6 +6136,9 @@ p {
   }
 }
 @media (min-width:65.68625em) {
+  .about-main__wrapper {
+    justify-content: center
+  }
   .services__tickers {
     padding-top: 3.125rem
   }
@@ -7602,9 +7598,9 @@ p {
     left: .9375rem
   }
 }
-@media (max-width:79.99875em) {
+@media (max-width:80.055625em) {
   .links-insights__link {
-    margin-bottom: 2.0625rem
+    margin-bottom: 1.0625rem
   }
 }
 @media (max-width:75.06125em) {
@@ -7941,15 +7937,27 @@ p {
   .control-hero {
     display: none
   }
-  .about-main__wrapper {
-    padding-top: 5rem
-  }
   .about-main__container {
-    padding-bottom: 2.1875rem
+    padding-bottom: 2.1875rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column
+  }
+  .about-main__body {
+    flex: 1
+  }
+  .about-main__bg {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem
+  }
+  .about-main__shelf {
+    width: 100%
   }
   .about-main__women {
     pointer-events: none;
-    right: 50%!important
+    right: 20%!important;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1)
   }
   .head-cases__title {
     flex: 0;
@@ -8041,12 +8049,6 @@ p {
   }
   .footer-main__arr-ic {
     display: none
-  }
-  .items-serv-right {
-    margin-left: 0;
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 1.125rem
   }
   .items-serv-right__item {
     -webkit-transform: translateY(100%);
@@ -8423,16 +8425,6 @@ p {
     opacity: 1;
     transition: opacity .1s ease 0s
   }
-  .steps-pin::before {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 20vh;
-    background-color: #fff
-  }
   .steps-pin::after {
     content: "";
     position: absolute;
@@ -8444,6 +8436,16 @@ p {
     background-color: #fff;
     -webkit-mask-image: linear-gradient(to bottom,rgba(255,255,255,0) 38%,#fff 48%,#fff 50%);
     mask-image: linear-gradient(to bottom,rgba(255,255,255,0) 38%,#fff 48%,#fff 50%)
+  }
+  .steps-pin::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 13vh;
+    background-color: #fff
   }
   .steps-pin .steps-mb {
     position: absolute;
@@ -8532,7 +8534,7 @@ p {
     top: 11.875rem
   }
   .design__line-mob {
-    right: -5.375rem
+    right: -5.625rem
   }
 }
 @media (max-width:40.68625em)and (max-width:40.68625em) {
@@ -8708,7 +8710,7 @@ p {
     font-size: 1.375rem
   }
   .head-section {
-    padding-top: 11.25rem;
+    padding-top: 8.125rem;
     padding-bottom: 2.75rem
   }
   .head-section .tiker {
@@ -8923,7 +8925,8 @@ p {
     height: 14.75rem
   }
   .about-main__wrapper {
-    justify-content: flex-end
+    padding-top: 5rem;
+    min-height: calc(100svh + 1.25rem)
   }
   .about-main__body {
     margin-bottom: 3.75rem
@@ -8944,17 +8947,19 @@ p {
     min-width: 14.8125rem
   }
   .about-main__shelf {
+    width: 140%;
     position: relative;
     left: 50%;
-    -webkit-transform: translate(-50%,0);
-    transform: translate(-50%,0)
+    -webkit-transform: translate(-55%,0);
+    transform: translate(-55%,0)
   }
   .about-main__women {
-    width: 8.125rem
+    width: 7.3125rem
   }
   .about-main__women {
-    -webkit-transform: translate(50%,0);
-    transform: translate(50%,0)
+    right: 5%!important;
+    -webkit-transform: translate(0,0) scaleX(-1);
+    transform: translate(0,0) scaleX(-1)
   }
   .heart-main__ic-arr {
     width: 1.125rem
@@ -9037,7 +9042,7 @@ p {
     justify-content: center
   }
   .items-serv-right {
-    justify-content: center
+    display: none
   }
   .relationship {
     padding-top: 3rem
@@ -9339,7 +9344,8 @@ p {
     margin-bottom: .8125rem
   }
   .item-partners {
-    border-radius: 1.25rem
+    border-radius: 1.25rem;
+    padding: 1.25rem 2.1875rem 1.75rem
   }
   .clients__item {
     padding: .8125rem 0;
@@ -9551,6 +9557,10 @@ p {
   .shelf__card {
     padding-bottom: 1.375rem
   }
+  .shelf__card {
+    padding-left: 1.625rem;
+    padding-right: 1.625rem
+  }
   .steps-retail__left {
     border-radius: 1.25rem
   }
@@ -9649,6 +9659,9 @@ p {
   ._watcher-view .steps-a__title {
     transition-delay: .1s
   }
+  .steps-b {
+    row-gap: 7.5rem
+  }
   .box {
     width: 30.625rem
   }
@@ -9680,9 +9693,6 @@ p {
   }
 }
 @media (max-width:23.49875em) {
-  .about-main__shelf {
-    width: 24.375rem
-  }
   .items-serv-left {
     margin-bottom: 1.125rem
   }
@@ -9690,6 +9700,9 @@ p {
     -webkit-column-gap: .5rem;
     -moz-column-gap: .5rem;
     column-gap: .5rem
+  }
+  .item-partners {
+    padding: 1.25rem 1.5625rem 1.75rem
   }
   .retail__hero {
     padding-top: 8.75rem!important
@@ -10229,7 +10242,7 @@ p {
     min-width: clamp(14.8125rem ,14.337491535rem + 1.5801354402vw ,15.6875rem)
   }
   .about-main__women {
-    width: clamp(8.125rem ,2.3570400677rem + 19.1873589165vw ,18.75rem)
+    width: clamp(7.3125rem ,1.1034607788rem + 20.6546275395vw ,18.75rem)
   }
   .heart-main__ic-heart {
     width: clamp(1.875rem ,1.399991535rem + 1.5801354402vw ,2.75rem)
@@ -10767,7 +10780,7 @@ p {
     margin-bottom: 5rem
   }
   .about-main__wrapper {
-    justify-content: center
+    padding-top: 20vh
   }
   .about-main__body {
     margin-bottom: 7.5rem
@@ -10898,6 +10911,12 @@ p {
   .form-footer__items {
     gap: 1.25rem
   }
+  .items-serv-right {
+    margin-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 1.125rem
+  }
   .relationship__brands {
     grid-template-columns: repeat(auto-fit,minmax(9.5625rem,auto))
   }
@@ -10973,11 +10992,6 @@ p {
 @media (min-width:62.06125em)and (max-width:120em) {
   .about-main__shelf {
     width: clamp(37.5rem ,28.3282547841rem + 14.7785376799vw ,46.0625rem)
-  }
-}
-@media (min-width:23.49875em)and (max-width:62.06125em) {
-  .about-main__shelf {
-    width: clamp(24.375rem ,16.3770461912rem + 34.0356564019vw ,37.5rem)
   }
 }
 @media (min-width:90.06125em)and (max-width:120em) {
@@ -11086,9 +11100,6 @@ p {
   .insights__button {
     padding-right: clamp(.0000000625rem ,16.499999875rem + -13.7499998437vw ,5.5rem)
   }
-  .links-insights__link {
-    margin-bottom: clamp(1.25rem ,-.375rem + 2.03125vw ,2.0625rem)
-  }
   .cooperation__items {
     padding-left: clamp(2.875rem ,-7.5rem + 12.96875vw ,8.0625rem)
   }
@@ -11096,6 +11107,11 @@ p {
 @media (max-width:48.06125em)and (min-width:30.06125em) {
   .links-insights {
     grid-template-columns: repeat(2,1fr)
+  }
+}
+@media (min-width:80.055625em)and (max-width:120em) {
+  .links-insights__link {
+    margin-bottom: clamp(1.0625rem ,-.9416776846rem + 2.5034814038vw ,2.0625rem)
   }
 }
 @media (max-width:40.68625em)and (min-width:30.06125em) {
@@ -11252,7 +11268,7 @@ p {
     top: clamp(11.875rem ,8.1383161823rem + 15.9431842887vw ,14.625rem)
   }
   .design__line-mob {
-    right: clamp(-5.375rem ,-12.6785184558rem + 31.1616787448vw ,.0000000625rem)
+    right: clamp(-5.625rem ,-9.0219852888rem + 14.4938038988vw ,-3.125rem)
   }
 }
 @media (min-width:23.49875em)and (max-width:40.68625em) {

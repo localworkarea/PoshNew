@@ -729,8 +729,23 @@ document.addEventListener("DOMContentLoaded", function() {
               window.scrollTo({ top: topOffset, behavior: "auto" });
             }
 
-            // Замена текста внутри filter-partners__title на текст кнопки
-            filterPartnersTitle.textContent = filterItem.textContent;
+            // // Замена текста внутри filter-partners__title на текст кнопки
+            // filterPartnersTitle.textContent = filterItem.textContent;
+        
+            // Замена текста и вставка <br> после первого слова на экранах < 480px
+              const buttonText = filterItem.textContent.trim();
+              if (window.innerWidth < 480) {
+                const firstSpaceIndex = buttonText.indexOf(' ');
+                if (firstSpaceIndex !== -1) {
+                  const firstWord = buttonText.slice(0, firstSpaceIndex);
+                  const restText = buttonText.slice(firstSpaceIndex + 1);
+                  filterPartnersTitle.innerHTML = `${firstWord}<br>${restText}`;
+                } else {
+                  filterPartnersTitle.textContent = buttonText; // Для однословных текстов
+                }
+              } else {
+                filterPartnersTitle.textContent = buttonText;
+              }
           
             e.preventDefault();
           }
