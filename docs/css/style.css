@@ -914,11 +914,16 @@ p {
   z-index: 3
 }
 .tiker p {
-  font-family: Mont,sans-serif
+  font-family: Mont,sans-serif;
+  line-height: .9
 }
 .tiker.tiker-blue {
   background-color: #3286db;
   color: #fefefe
+}
+.tiker.tiker-blue .tiker__item {
+  position: relative;
+  top: .15625rem
 }
 .tiker.tiker-white {
   color: #fefefe
@@ -4581,7 +4586,8 @@ p {
 .logics {
   display: grid;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
+  margin-top: 2.5rem
 }
 .logics .logics__title span::before {
   bottom: 0;
@@ -6832,9 +6838,6 @@ p {
   .steps__about {
     padding-bottom: 11.875rem
   }
-  .logics {
-    margin-top: 25rem
-  }
   .logics__img {
     width: 19.375rem
   }
@@ -8238,9 +8241,6 @@ p {
     -moz-column-gap: 1.25rem;
     column-gap: 1.25rem
   }
-  .logics {
-    margin-top: 18.75rem
-  }
 }
 @media (max-width:46.93625em) {
   .footer-main__head {
@@ -8388,7 +8388,7 @@ p {
     bottom: 30px
   }
   .design__boxes {
-    margin-bottom: 21.875rem
+    margin-bottom: 25rem
   }
   .design__line-pc {
     display: none
@@ -8445,6 +8445,7 @@ p {
     left: 0;
     width: 100%;
     height: 13vh;
+    height: 20vh;
     background-color: #fff
   }
   .steps-pin .steps-mb {
@@ -8926,6 +8927,7 @@ p {
   }
   .about-main__wrapper {
     padding-top: 5rem;
+    padding-top: 7.5rem;
     min-height: calc(100svh + 1.25rem)
   }
   .about-main__body {
@@ -8989,7 +8991,7 @@ p {
     clip-path: inset(0 round .0625rem)
   }
   .slider-main__slide-link .btn-mask__body .btn-mask__txt-2 {
-    font-size: .875rem
+    font-size: 1rem
   }
   .slider-main__slide-link .btn-mask__body .btn-mask__txt-2 {
     line-height: 1.2
@@ -9028,7 +9030,7 @@ p {
     display: none
   }
   .services-main__items {
-    width: 42.5rem
+    width: 45.625rem
   }
   .items-serv-left {
     -webkit-column-gap: .5rem;
@@ -10753,7 +10755,7 @@ p {
     margin-right: clamp(.9375rem ,.6657660279rem + .9039343744vw ,1.4375rem)
   }
   .slider-main__slide-link .btn-mask__body .btn-mask__txt-2 {
-    font-size: clamp(.875rem ,.5353325349rem + 1.129917968vw ,1.5rem)
+    font-size: clamp(1rem ,.7282660279rem + .9039343744vw ,1.5rem)
   }
   .slider-main__slide-link .btn-mask__body .btn-mask__arr-r {
     width: clamp(.625rem ,.4891330139rem + .4519671872vw ,.875rem)
@@ -10954,9 +10956,6 @@ p {
   }
   .steps__anim-wr {
     width: clamp(15.625rem ,7.5880016722rem + 16.7224080268vw ,21.875rem)
-  }
-  .logics {
-    margin-top: clamp(18.75rem ,10.7130016722rem + 16.7224080268vw ,25rem)
   }
 }
 @media (max-width:85.43625em)and (min-width:48.06125em) {

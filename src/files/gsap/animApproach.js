@@ -739,14 +739,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
           const animation = gsap.timeline({ paused: true })
           .to(box, {
-            transform: 'translate(-66%, 77%) scale(.3)',
+            // transform: 'translate(-66%, 77%) scale(.3)',
+            transform: 'translate(-66%, 150%) scale(.3)',
             opacity: 0,
-            duration: 0.7
+            duration: 0.6
           }, 0)
           .to(boxCookie, {
-            transform: 'translate(-25%, 274%) scale(.3)',
+            // transform: 'translate(-25%, 274%) scale(.3)',
+            transform: 'translate(-25%, 450%) scale(.3)',
             opacity: 0,
-            duration: 0.7
+            duration: 0.6
           }, 0);
 
           // ScrollTrigger для запуска анимации

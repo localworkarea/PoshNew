@@ -748,11 +748,16 @@ p {
   z-index: 3;
   p {
     font-family: "Mont",sans-serif;
+    line-height: 0.9;
   }
   &.tiker-blue {
     background-color: $lightBlue;
     color: $mainWhite;
     @include adaptiveValue("height", 90, 62,0,1920,480.98);
+    .tiker__item {
+      position: relative;
+      top: toRem(2.5); 
+    }
   }
   &.tiker-white {
     color: $mainWhite;
@@ -788,34 +793,12 @@ p {
     position: relative;
     display: block;
     height: 100%;
-    
-    // .tiker-01 & {
-    //   @include adaptiveValue("width", 96, 65,0,1920,480.98);
-    //   img {
-    //     position: absolute;
-    //     bottom: toRem(5);
-    //     left: 0;
-    //     width: 100%;
-    //     height: auto;
-    //     @media (max-width:$mobileSmall){
-    //        bottom: toRem(8); 
-    //     }
-    //   }
-    // }
-   
     .tiker-01 &,
     .tiker-02 &,
     .tiker-03 & {
       @include adaptiveValue("height", 58, 50,2,1920,1366.98);
       @include adaptiveValue("height", 50, 37,3,1366.98,480);
-      // @include adaptiveValue("width", 72, 42,0,1366.98,480.98);
       img {
-        // height: auto;
-        // position: absolute;
-        // left: 0;
-        // top: 50%;
-        // transform: translate(0, -50%);
-        // @include adaptiveValue("width", 72, 42,0,1366.98,480.98);
         position: relative;
         bottom: 8%;
         height: 100%;
