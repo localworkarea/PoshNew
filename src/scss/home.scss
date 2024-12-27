@@ -459,7 +459,7 @@
     @media (min-width: $tablet) and (orientation: landscape){ 
       min-height: calc(100svh + toRem(20));
       padding-top: 30vh;
-      justify-content: flex-end;
+      justify-content: flex-end !important;
     }
     @media (min-width: $tablet) { 
       padding-top: 30vh;
@@ -917,7 +917,7 @@
   // .services-main__items
   &__items {
     @media (max-width:$mobileSmall){
-      width: toRem(730);
+      width: toRem(770);
       // scroll-snap-align: center;
       // scroll-margin-inline: auto;
     }
@@ -1790,7 +1790,7 @@
     text-transform: uppercase;
     opacity: 0;
     transition: opacity .3s ease;
-    @include adaptiveValue("gap", 36, 16,0,1366.98,480.98);
+    // @include adaptiveValue("gap", 36, 16,0,1366.98,480.98);
     span {
       display: inline-block;
     }
@@ -1800,17 +1800,24 @@
     @media (min-width:$tablet){
       width: max-content;
       align-items: center;
+
+      flex: 1;
     }
     @media (max-width:$tablet) {
       flex: 0;
       align-items: end;
     }
     @media (min-width:$mobileSmall){
-      display: grid;
-      grid-template-columns: auto 1fr;
+      // display: grid;
+      // grid-template-columns: auto 1fr;
+      // display: flex;
+      // align-items: center;
     }
     .line {
       overflow: visible;
+      @media (min-width:$mobileSmall){
+        display: inline !important;
+      }
         @media (max-width:$mobileSmall){
           display: inline-block !important;
           width: auto !important;
@@ -1844,11 +1851,15 @@
     vertical-align: middle;
     height: auto;
 
+
+    // margin-left: 10px; 
+    margin-bottom: 8px;
+
     opacity: 0;
     transform: translateX(-100%);
     transition: opacity .45s ease, transform .45s ease;
     @include adaptiveValue("width", 21, 17,0,1366.98,480.98);
-    
+    @include adaptiveValue("margin-left", 36, 16,2,1366.98,480.98);
     .loaded & {
       opacity: 1;
       transform: translateX(0);
@@ -2491,7 +2502,7 @@
         opacity: 1;
         transform: translateY(0);
       }
-      @for $i from 1 through 25 {
+      @for $i from 1 through 60 {
         &:nth-child(#{$i}) {
             transition-delay: $initial-delay + ($delay-step * $i);
         }
@@ -3820,29 +3831,29 @@
   &__video-btn {
     position: absolute;
     z-index: 2;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: toRem(116);
-    height: toRem(116);
+    inset: 0;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%,-50%);
+    // width: toRem(116);
+    // height: toRem(116);
     transition: opacity .3s ease;
-    border-radius: 50%;
     display: grid;
     place-items: center;
-    transition: background-color .3s ease;
     img {
+      border-radius: 50%;
       width: toRem(116);
       height: toRem(116);
-      transition: transform .3s ease;
+      transition: transform .3s ease, background-color .3s ease;
     }
     &._play {
       opacity: 0;
-      pointer-events: none;
+      // pointer-events: none;
     }
     @media (any-hover: hover){
       &:hover{
-        background-color: rgba(255, 255, 255, 0.3);
         img {
+          background-color: rgba(255, 255, 255, 0.3);
           transform: scale(1.05)
         }
       }

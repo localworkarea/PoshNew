@@ -133,6 +133,7 @@ export let _slideToggle = (target, duration = 500) => {
 }
 // Допоміжні модулі блокування прокручування та стрибка ====================================================================================================================================================================================================================================================================================
 export let bodyLockStatus = true;
+// export let scrollPosition  = 0;
 export let bodyLockToggle = (delay = 500) => {
 	if (document.documentElement.classList.contains('lock')) {
 		bodyUnlock(delay);
@@ -142,6 +143,9 @@ export let bodyLockToggle = (delay = 500) => {
 }
 export let bodyUnlock = (delay = 500) => {
 	let body = document.querySelector("body");
+	// document.body.style.position = '';
+  // document.body.style.top = '';
+  // window.scrollTo(0, scrollPosition);
 	if (bodyLockStatus) {
 		let lock_padding = document.querySelectorAll("[data-lp]");
 		setTimeout(() => {
@@ -160,6 +164,9 @@ export let bodyUnlock = (delay = 500) => {
 }
 export let bodyLock = (delay = 500) => {
 	let body = document.querySelector("body");
+	// scrollPosition = window.scrollY; // Сохраняем текущую позицию скролла
+  // document.body.style.position = 'fixed';
+  // document.body.style.top = `-${scrollPosition}px`;
 	if (bodyLockStatus) {
 		let lock_padding = document.querySelectorAll("[data-lp]");
 		for (let index = 0; index < lock_padding.length; index++) {

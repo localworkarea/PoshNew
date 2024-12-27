@@ -68,7 +68,7 @@ body {
 	min-height: 100%;
 	// Скролл заблоковано
 	transition: opacity .3s;
-	overscroll-behavior: none;
+	// overscroll-behavior: none;
 	&._reload  {
 		opacity: 0;
 		transition: unset;
@@ -77,6 +77,7 @@ body {
 		overflow: hidden;
 		touch-action: none;
 		overscroll-behavior: none;
+		// pointer-events: none;
 	}
 	.no-scroll & {
 		overflow: hidden;

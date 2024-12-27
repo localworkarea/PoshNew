@@ -115,9 +115,9 @@ class Popup {
 				this._dataValue = buttonOpen.getAttribute(this.options.attributeOpenButton) ?
 					buttonOpen.getAttribute(this.options.attributeOpenButton) :
 					'error';
-				this.youTubeCode = buttonOpen.getAttribute(this.options.youtubeAttribute) ?
-					buttonOpen.getAttribute(this.options.youtubeAttribute) :
-					null;
+				// this.youTubeCode = buttonOpen.getAttribute(this.options.youtubeAttribute) ?
+				// 	buttonOpen.getAttribute(this.options.youtubeAttribute) :
+				// 	null;
 				if (this._dataValue !== 'error') {
 					if (!this.isOpen) this.lastFocusEl = buttonOpen;
 					this.targetOpen.selector = `${this._dataValue}`;
@@ -175,6 +175,14 @@ class Popup {
 	}
 	open(selectorValue) {
 		if (bodyLockStatus) {
+			const scrollY = window.scrollY; // Сохраняем текущую позицию скролла
+			document.body.style.top = `-${scrollY}px`;
+			document.body.style.position = 'fixed';
+			document.body.style.left = '0';
+			document.body.style.right = '0';
+			document.body.style.width = '100%';
+
+
 			// Якщо перед відкриттям попапа був режим lock
 			this.bodyLock = document.documentElement.classList.contains('lock') && !this.isOpen ? true : false;
 
@@ -193,23 +201,23 @@ class Popup {
 			this.targetOpen.element = document.querySelector(this.targetOpen.selector);
 
 			if (this.targetOpen.element) {
-				// YouTube
-				if (this.youTubeCode) {
-					const codeVideo = this.youTubeCode;
-					const urlVideo = `https://www.youtube.com/embed/${codeVideo}?rel=0&showinfo=0&autoplay=1`
-					const iframe = document.createElement('iframe');
-					iframe.setAttribute('allowfullscreen', '');
+				// // YouTube
+				// if (this.youTubeCode) {
+				// 	const codeVideo = this.youTubeCode;
+				// 	const urlVideo = `https://www.youtube.com/embed/${codeVideo}?rel=0&showinfo=0&autoplay=1`
+				// 	const iframe = document.createElement('iframe');
+				// 	iframe.setAttribute('allowfullscreen', '');
 
-					const autoplay = this.options.setAutoplayYoutube ? 'autoplay;' : '';
-					iframe.setAttribute('allow', `${autoplay}; encrypted-media`);
+				// 	const autoplay = this.options.setAutoplayYoutube ? 'autoplay;' : '';
+				// 	iframe.setAttribute('allow', `${autoplay}; encrypted-media`);
 
-					iframe.setAttribute('src', urlVideo);
+				// 	iframe.setAttribute('src', urlVideo);
 
-					if (!this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`)) {
-						const youtubePlace = this.targetOpen.element.querySelector('.popup__text').setAttribute(`${this.options.youtubePlaceAttribute}`, '');
-					}
-					this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`).appendChild(iframe);
-				}
+				// 	if (!this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`)) {
+				// 		const youtubePlace = this.targetOpen.element.querySelector('.popup__text').setAttribute(`${this.options.youtubePlaceAttribute}`, '');
+				// 	}
+				// 	this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`).appendChild(iframe);
+				// }
 				if (this.options.hashSettings.location) {
 					// Отримання хешу та його виставлення
 					this._getHash();
@@ -267,6 +275,18 @@ class Popup {
 		if (!this.isOpen || !bodyLockStatus) {
 			return;
 		}
+
+		// Возвращаем страницу на исходную позицию
+		const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10));
+		document.body.style.position = '';
+		document.body.style.top = '';
+		document.body.style.left = '';
+		document.body.style.right = '';
+		document.body.style.width = '';
+		window.scrollTo(0, scrollY);
+
+
+
 		// До закриття
 		this.options.on.beforeClose(this);
 		// Створюємо свою подію перед закриттям попапа
@@ -276,11 +296,11 @@ class Popup {
 			}
 		}));
 
-		// YouTube
-		if (this.youTubeCode) {
-			if (this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`))
-				this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`).innerHTML = '';
-		}
+		// // YouTube
+		// if (this.youTubeCode) {
+		// 	if (this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`))
+		// 		this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`).innerHTML = '';
+		// }
 		this.previousOpen.element.classList.remove(this.options.classes.popupActive);
 		// aria-hidden
 		this.previousOpen.element.setAttribute('aria-hidden', 'true');
@@ -345,9 +365,9 @@ class Popup {
 
 		const buttons = document.querySelector(`[${this.options.attributeOpenButton} = "${classInHash}"]`) ? document.querySelector(`[${this.options.attributeOpenButton} = "${classInHash}"]`) : document.querySelector(`[${this.options.attributeOpenButton} = "${classInHash.replace('.', "#")}"]`);
 
-		this.youTubeCode = buttons.getAttribute(this.options.youtubeAttribute) ?
-			buttons.getAttribute(this.options.youtubeAttribute) :
-			null;
+		// this.youTubeCode = buttons.getAttribute(this.options.youtubeAttribute) ?
+		// 	buttons.getAttribute(this.options.youtubeAttribute) :
+		// 	null;
 
 		if (buttons && classInHash) this.open(classInHash);
 	}

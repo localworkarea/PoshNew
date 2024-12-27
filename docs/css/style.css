@@ -109,9 +109,7 @@ summary {
 }
 body {
   min-height: 100%;
-  transition: opacity .3s;
-  -ms-scroll-chaining: none;
-  overscroll-behavior: none
+  transition: opacity .3s
 }
 body._reload {
   opacity: 0;
@@ -230,6 +228,7 @@ body::after {
   left: 0;
   bottom: 0;
   right: 0;
+  overflow: auto;
   pointer-events: none
 }
 .popup__wrapper {
@@ -254,11 +253,7 @@ body::after {
   pointer-events: all
 }
 .popup_show {
-  overflow: auto;
   pointer-events: auto
-}
-.popup-case {
-  overflow: hidden
 }
 .popup-case__wrapper {
   overflow: hidden;
@@ -2245,6 +2240,7 @@ p {
   display: inline-block;
   vertical-align: middle;
   height: auto;
+  margin-bottom: 8px;
   opacity: 0;
   -webkit-transform: translateX(-100%);
   transform: translateX(-100%);
@@ -3080,28 +3076,21 @@ p {
 .slide-serv__video-btn {
   position: absolute;
   z-index: 2;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
-  width: 7.25rem;
-  height: 7.25rem;
+  inset: 0;
   transition: opacity .3s ease;
-  border-radius: 50%;
   display: grid;
-  place-items: center;
-  transition: background-color .3s ease
+  place-items: center
 }
 .slide-serv__video-btn img {
+  border-radius: 50%;
   width: 7.25rem;
   height: 7.25rem;
-  transition: -webkit-transform .3s ease;
-  transition: transform .3s ease;
-  transition: transform .3s ease,-webkit-transform .3s ease
+  transition: background-color .3s ease,-webkit-transform .3s ease;
+  transition: transform .3s ease,background-color .3s ease;
+  transition: transform .3s ease,background-color .3s ease,-webkit-transform .3s ease
 }
 .slide-serv__video-btn._play {
-  opacity: 0;
-  pointer-events: none
+  opacity: 0
 }
 .service__container {
   position: relative
@@ -5093,9 +5082,8 @@ p {
   .cooperation__title br {
     display: none
   }
-  .head-cases__title {
-    display: grid;
-    grid-template-columns: auto 1fr
+  .head-cases__title .line {
+    display: inline!important
   }
   .case-page__body video {
     border-radius: 2.5625rem
@@ -5230,6 +5218,111 @@ p {
   }
   .cases-nav__item:nth-child(25) {
     transition-delay: 1.7s
+  }
+  .cases-nav__item:nth-child(26) {
+    transition-delay: 1.76s
+  }
+  .cases-nav__item:nth-child(27) {
+    transition-delay: 1.82s
+  }
+  .cases-nav__item:nth-child(28) {
+    transition-delay: 1.88s
+  }
+  .cases-nav__item:nth-child(29) {
+    transition-delay: 1.94s
+  }
+  .cases-nav__item:nth-child(30) {
+    transition-delay: 2s
+  }
+  .cases-nav__item:nth-child(31) {
+    transition-delay: 2.06s
+  }
+  .cases-nav__item:nth-child(32) {
+    transition-delay: 2.12s
+  }
+  .cases-nav__item:nth-child(33) {
+    transition-delay: 2.18s
+  }
+  .cases-nav__item:nth-child(34) {
+    transition-delay: 2.24s
+  }
+  .cases-nav__item:nth-child(35) {
+    transition-delay: 2.3s
+  }
+  .cases-nav__item:nth-child(36) {
+    transition-delay: 2.36s
+  }
+  .cases-nav__item:nth-child(37) {
+    transition-delay: 2.42s
+  }
+  .cases-nav__item:nth-child(38) {
+    transition-delay: 2.48s
+  }
+  .cases-nav__item:nth-child(39) {
+    transition-delay: 2.54s
+  }
+  .cases-nav__item:nth-child(40) {
+    transition-delay: 2.6s
+  }
+  .cases-nav__item:nth-child(41) {
+    transition-delay: 2.66s
+  }
+  .cases-nav__item:nth-child(42) {
+    transition-delay: 2.72s
+  }
+  .cases-nav__item:nth-child(43) {
+    transition-delay: 2.78s
+  }
+  .cases-nav__item:nth-child(44) {
+    transition-delay: 2.84s
+  }
+  .cases-nav__item:nth-child(45) {
+    transition-delay: 2.9s
+  }
+  .cases-nav__item:nth-child(46) {
+    transition-delay: 2.96s
+  }
+  .cases-nav__item:nth-child(47) {
+    transition-delay: 3.02s
+  }
+  .cases-nav__item:nth-child(48) {
+    transition-delay: 3.08s
+  }
+  .cases-nav__item:nth-child(49) {
+    transition-delay: 3.14s
+  }
+  .cases-nav__item:nth-child(50) {
+    transition-delay: 3.2s
+  }
+  .cases-nav__item:nth-child(51) {
+    transition-delay: 3.26s
+  }
+  .cases-nav__item:nth-child(52) {
+    transition-delay: 3.32s
+  }
+  .cases-nav__item:nth-child(53) {
+    transition-delay: 3.38s
+  }
+  .cases-nav__item:nth-child(54) {
+    transition-delay: 3.44s
+  }
+  .cases-nav__item:nth-child(55) {
+    transition-delay: 3.5s
+  }
+  .cases-nav__item:nth-child(56) {
+    transition-delay: 3.56s
+  }
+  .cases-nav__item:nth-child(57) {
+    transition-delay: 3.62s
+  }
+  .cases-nav__item:nth-child(58) {
+    transition-delay: 3.68s
+  }
+  .cases-nav__item:nth-child(59) {
+    transition-delay: 3.74s
+  }
+  .cases-nav__item:nth-child(60) {
+    transition-delay: 3.8s
   }
   .cases-nav__mob {
     display: none
@@ -6069,7 +6162,8 @@ p {
   .head-cases__title {
     width: -webkit-max-content;
     width: max-content;
-    align-items: center
+    align-items: center;
+    flex: 1
   }
   .filter-partners__title {
     grid-column: 2/3;
@@ -6133,7 +6227,7 @@ p {
   .about-main__wrapper {
     min-height: calc(100svh + 1.25rem);
     padding-top: 30vh;
-    justify-content: flex-end
+    justify-content: flex-end!important
   }
 }
 @media (min-width:63.49875em) {
@@ -6525,11 +6619,11 @@ p {
   .cases-page__head {
     margin-bottom: 2.9375rem
   }
-  .head-cases__title {
-    gap: 2.25rem
-  }
   .head-cases__img {
     width: 1.3125rem
+  }
+  .head-cases__img {
+    margin-left: 2.25rem
   }
   .case-buttons__btn {
     gap: 1.25rem
@@ -9030,7 +9124,7 @@ p {
     display: none
   }
   .services-main__items {
-    width: 45.625rem
+    width: 48.125rem
   }
   .items-serv-left {
     -webkit-column-gap: .5rem;
@@ -9133,9 +9227,6 @@ p {
   }
   .cases-page__head {
     margin-bottom: 1.875rem
-  }
-  .head-cases__title {
-    gap: 1rem
   }
   .head-cases__title .line {
     display: inline-block!important;
@@ -10305,11 +10396,11 @@ p {
   .cases-page__head {
     margin-bottom: clamp(1.875rem ,1.2982040068rem + 1.9187358916vw ,2.9375rem)
   }
-  .head-cases__title {
-    gap: clamp(1rem ,.3214164786rem + 2.2573363431vw ,2.25rem)
-  }
   .head-cases__img {
     width: clamp(1.0625rem ,.9267832957rem + .4514672686vw ,1.3125rem)
+  }
+  .head-cases__img {
+    margin-left: clamp(1rem ,.3214164786rem + 2.2573363431vw ,2.25rem)
   }
   .case-buttons__btn {
     gap: clamp(.8125rem ,.5749957675rem + .7900677201vw ,1.25rem)
@@ -11425,10 +11516,8 @@ p {
     -webkit-transform: scale(1.1);
     transform: scale(1.1)
   }
-  .slide-serv__video-btn:hover {
-    background-color: rgba(255,255,255,.3)
-  }
   .slide-serv__video-btn:hover img {
+    background-color: rgba(255,255,255,.3);
     -webkit-transform: scale(1.05);
     transform: scale(1.05)
   }

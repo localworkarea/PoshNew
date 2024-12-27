@@ -159,12 +159,14 @@
         background-color: $darkBlue;
         opacity: 0;
         clip-path: inset(0 0 100% 0);
-        transition: clip-path .55s ;
-
+        transition: clip-path .55s;
+        // transition: clip-path .55s, opacity .1s linear 0.55s;
+        
         .menu-open & {
           opacity: 1;
           clip-path: inset(0 0 0 0);
           pointer-events: all;
+          // transition: clip-path .55s, opacity 0s linear 0s;
         }
     }
   }

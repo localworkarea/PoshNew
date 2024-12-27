@@ -1,5 +1,5 @@
 // Підключення функціоналу "Чертоги Фрілансера"
-import {isMobile,  bodyLockStatus, bodyLock, bodyUnlock, bodyLockToggle  } from "./functions.js";
+import {isMobile,  bodyLockStatus, bodyLock, bodyUnlock, bodyLockToggle, scrollPosition  } from "./functions.js";
 // Підключення списку активних модулів
 import { flsModules } from "./modules.js";
 
@@ -48,38 +48,46 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // == ЗАПУС ВИДЕО ЭЛЕМЕНТОВ ЕСЛИ IPHONE В РЕЖИМЕ LOWE MODE ===============================
   if (isMobile.iOS()) {
-        const videoElements = document.querySelectorAll('video');
-  
-        if (videoElements.length > 0) {
+        const heroSection = document.querySelector('.hero');
+        const popupCases = document.querySelector('.popup-case');
+        const casePage = document.querySelector('.case-page');
         
-            Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
-                get: function () {
-                    return !!(this.currentTime > 0 && !this.paused && !this.ended && this.readyState > 2);
-                }
-            });
+        if (popupCases || casePage || heroSection) {
+
+          const videoElements = document.querySelectorAll('video');
+    
+          if (videoElements.length > 0) {
           
-            videoElements.forEach(videoElement => {
-                if (!videoElement.hasAttribute('playsinline')) {
-                    videoElement.setAttribute('playsinline', '');
-                }
-            });
-          
-            function attemptPlay(videoElement) {
-                if (!videoElement.playing) {
-                    videoElement.play().catch(error => {
-                        console.error('Failed to play video:', error);
-                    });
-                }
-            }
-          
-            document.body.addEventListener('click', () => {
-                videoElements.forEach(videoElement => attemptPlay(videoElement));
-            });
-          
-            document.body.addEventListener('touchstart', () => {
-                videoElements.forEach(videoElement => attemptPlay(videoElement));
-            });
+              Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
+                  get: function () {
+                      return !!(this.currentTime > 0 && !this.paused && !this.ended && this.readyState > 2);
+                  }
+              });
+            
+              videoElements.forEach(videoElement => {
+                  if (!videoElement.hasAttribute('playsinline')) {
+                      videoElement.setAttribute('playsinline', '');
+                  }
+              });
+            
+              function attemptPlay(videoElement) {
+                  if (!videoElement.playing) {
+                      videoElement.play().catch(error => {
+                          console.error('Failed to play video:', error);
+                      });
+                  }
+              }
+            
+              document.body.addEventListener('click', () => {
+                  videoElements.forEach(videoElement => attemptPlay(videoElement));
+              });
+            
+              document.body.addEventListener('touchstart', () => {
+                  videoElements.forEach(videoElement => attemptPlay(videoElement));
+              });
+          }
         }
+
   }
   
   // =====================================================================
@@ -732,20 +740,20 @@ document.addEventListener("DOMContentLoaded", function() {
             // // Замена текста внутри filter-partners__title на текст кнопки
             // filterPartnersTitle.textContent = filterItem.textContent;
         
-            // Замена текста и вставка <br> после первого слова на экранах < 480px
+            // Замена текста и вставка <br> после первого слова 
               const buttonText = filterItem.textContent.trim();
-              if (window.innerWidth < 480) {
-                const firstSpaceIndex = buttonText.indexOf(' ');
-                if (firstSpaceIndex !== -1) {
-                  const firstWord = buttonText.slice(0, firstSpaceIndex);
-                  const restText = buttonText.slice(firstSpaceIndex + 1);
-                  filterPartnersTitle.innerHTML = `${firstWord}<br>${restText}`;
-                } else {
-                  filterPartnersTitle.textContent = buttonText; // Для однословных текстов
-                }
+              // if (window.innerWidth < 480) {
+              const firstSpaceIndex = buttonText.indexOf(' ');
+              if (firstSpaceIndex !== -1) {
+                const firstWord = buttonText.slice(0, firstSpaceIndex);
+                const restText = buttonText.slice(firstSpaceIndex + 1);
+                filterPartnersTitle.innerHTML = `${firstWord}<br>${restText}`;
               } else {
-                filterPartnersTitle.textContent = buttonText;
+                filterPartnersTitle.textContent = buttonText; // Для однословных текстов
               }
+              // } else {
+              //   filterPartnersTitle.textContent = buttonText;
+              // }
           
             e.preventDefault();
           }
@@ -776,22 +784,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
       // страница SERVICES - запус видео из слайдеров ================
-      const videoContainers = document.querySelectorAll('.slide-serv');    
+      const videoContainers = document.querySelectorAll('.slide-serv');
       if (videoContainers.length > 0) {
           videoContainers.forEach(container => {
               const buttonService = container.querySelector('.slide-serv__video-btn');
               const video = container.querySelector('.slide-serv__video');
-    
+          
               if (buttonService && video) {
-                  buttonService.addEventListener('click', function() {
-                      video.play();
-                      video.controls = true;
-                      video.muted = false; // Включаем звук
-                      buttonService.classList.add('_play');
+                  buttonService.addEventListener('click', function () {
+                      if (video.paused) {
+                          video.play(); // Воспроизведение видео
+                          video.muted = false; // Включаем звук
+                          buttonService.classList.add('_play'); // Добавляем класс
+                      } else {
+                          video.pause(); // Остановка видео
+                          buttonService.classList.remove('_play'); // Убираем класс
+                      }
                   });
               }
           });
       }
+
       // ===================================================================
 
       // === страница OUR-SERVICES === добавляем класс _sticky =======
@@ -803,72 +816,76 @@ document.addEventListener("DOMContentLoaded", function() {
       const headerElOur = document.querySelector('.header');
       const sliderWrapper = document.querySelector('.our-serv__slider-wr');
 
-      // function scrollToTarget(targetElement, sliderElement) {
-      //   const sliderRect = sliderElement.getBoundingClientRect();
-      //   const sliderCenter = sliderRect.top + sliderRect.height / 2;
-      
-      //   const targetRect = targetElement.getBoundingClientRect();
-      //   const targetCenter = targetRect.top + targetRect.height / 2;
-      
-      //   const offset = targetCenter - sliderCenter;
-      
-      //   window.scrollBy({
-      //     top: offset,
-      //     behavior: 'smooth'
-      //   });
-      // }
-// function scrollToTarget(targetElement, sliderElement) {
-//   const sliderRect = sliderElement.getBoundingClientRect();
-//   const sliderCenter = window.scrollY + sliderRect.top + sliderRect.height / 2;
-
-//   const targetRect = targetElement.getBoundingClientRect();
-//   const targetCenter = window.scrollY + targetRect.top + targetRect.height / 2;
-
-//   // Корректировка для центрирования
-//   const correction = targetCenter - sliderCenter;
-
-//   window.scrollTo({
-//     top: window.scrollY + correction,
-//     behavior: 'smooth'
-//   });
-// }
-
+     
+        // == Функция прокрутки к нужному элементу с высчетом необходимого положения
         function scrollToTarget(targetElement, sliderElement, adjustment = 0) {
           const sliderRect = sliderElement.getBoundingClientRect();
           const targetRect = targetElement.getBoundingClientRect();
-        
-          const sliderCenter = window.scrollY + sliderRect.top + sliderRect.height / 2;
-        
-          const targetCenter = window.scrollY + targetRect.top + targetRect.height / 2;
-        
-          const correction = targetCenter - sliderCenter;
-        
+
+          const isSmallScreen = window.matchMedia("(max-width: 46.061em)").matches;
+          let correction;
+
+          if (isSmallScreen) {
+            // Для экранов ниже 46.061em фиксируем отступ 80px от верхней границы
+            correction = window.scrollY + targetRect.top - 100;
+          } else {
+            // Для экранов выше 46.061em вычисляем центрирование
+            const sliderCenter = window.scrollY + sliderRect.top + sliderRect.height / 2;
+            const targetCenter = window.scrollY + targetRect.top + targetRect.height / 2;
+            correction = targetCenter - sliderCenter + adjustment;
+          }
+
           window.scrollTo({
-            top: window.scrollY + correction + adjustment,
+            top: isSmallScreen ? correction : window.scrollY + correction,
             behavior: 'smooth'
           });
+
+          if (!isSmallScreen) {
+            requestAnimationFrame(() => {
+              const newTargetRect = targetElement.getBoundingClientRect();
+              const newTargetCenter = window.scrollY + newTargetRect.top + newTargetRect.height / 2;
+              const newSliderRect = sliderElement.getBoundingClientRect();
+              const newSliderCenter = window.scrollY + newSliderRect.top + newSliderRect.height / 2;
         
-          requestAnimationFrame(() => {
-            const newTargetRect = targetElement.getBoundingClientRect();
-            const newTargetCenter = window.scrollY + newTargetRect.top + newTargetRect.height / 2;
-            const newSliderRect = sliderElement.getBoundingClientRect();
-            const newSliderCenter = window.scrollY + newSliderRect.top + newSliderRect.height / 2;
+              const newCorrection = newTargetCenter - newSliderCenter;
+        
+              if (Math.abs(newCorrection) > 1) {
+                window.scrollTo({
+                  top: window.scrollY + newCorrection + adjustment,
+                  behavior: 'smooth'
+                });
+              }
+            });
+          }
+        
+          // const sliderCenter = window.scrollY + sliderRect.top + sliderRect.height / 2;
+          // const targetCenter = window.scrollY + targetRect.top + targetRect.height / 2;
+          // const correction = targetCenter - sliderCenter;
+        
+          // window.scrollTo({
+          //   top: window.scrollY + correction + adjustment,
+          //   behavior: 'smooth'
+          // });
+        
+          // requestAnimationFrame(() => {
+          //   const newTargetRect = targetElement.getBoundingClientRect();
+          //   const newTargetCenter = window.scrollY + newTargetRect.top + newTargetRect.height / 2;
+          //   const newSliderRect = sliderElement.getBoundingClientRect();
+          //   const newSliderCenter = window.scrollY + newSliderRect.top + newSliderRect.height / 2;
 
-            const newCorrection = newTargetCenter - newSliderCenter;
+          //   const newCorrection = newTargetCenter - newSliderCenter;
           
-            if (Math.abs(newCorrection) > 1) { 
-              window.scrollTo({
-                top: window.scrollY + newCorrection + adjustment,
-                behavior: 'smooth'
-              });
-            }
-          });
+          //   if (Math.abs(newCorrection) > 1) { 
+          //     window.scrollTo({
+          //       top: window.scrollY + newCorrection + adjustment,
+          //       behavior: 'smooth'
+          //     });
+          //   }
+          // });
         }
-
-  
-      
-
+        
       if (navElement) {
+        // === прокрутка при клике на кнопку ==========================
         if (navLinks.length > 0) {
           navLinks.forEach(link => {
             link.addEventListener('click', function (event) {
@@ -897,7 +914,7 @@ document.addEventListener("DOMContentLoaded", function() {
           });
         }
       
-
+        // Функция пааддинга, добавления классов... для экранов выше чем 48.061 =====
         function handleScrollEvents() {
           // Adjust Padding Bottom ==========================================
           const sliderRect = sliderElement.getBoundingClientRect();
@@ -940,45 +957,16 @@ document.addEventListener("DOMContentLoaded", function() {
           handleScrollEvents();
         }
         
-        
-
-        // const items = document.querySelectorAll('.our-serv__item');
-    
-        // items.forEach(item => {
-        //   const idValue = item.getAttribute('data-set-id');
-        //   if (idValue) {
-        //     item.id = idValue;
-        //   }
-        // });
-        // setTimeout(() => {
-        //   if (window.location.hash) {
-        //     const hash = window.location.hash;
-        //     const targetElementHash = document.querySelector(hash);
-            
-        //     if (targetElementHash) {
-        //       const navElementPosition = navElement.getBoundingClientRect().top;
-      
-        //       window.scrollTo({
-        //         top: window.scrollY + navElementPosition,
-        //         behavior: 'smooth'
-        //       });
-        //       const timeoutId = setTimeout(() => {
-        //         scrollToTarget(targetElementHash, sliderElement, 0);
-        //         history.replaceState(null, null, ' ');
-        //         clearTimeout(timeoutId); 
-        //       }, 0);
-        //     }
-        //   }
-        // }, 200); 
+        // Устаноавливаем id
         const items = document.querySelectorAll('.our-serv__item');
-
         items.forEach(item => {
           const idValue = item.getAttribute('data-set-id');
           if (idValue) {
             item.id = idValue;
           }
         });
-        
+
+        // deleted hash in opened page ======================
         setTimeout(() => {
           if (window.location.hash) {
             const hash = window.location.hash;
@@ -1006,7 +994,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
 
 
-      
     
       // ====================================================================
 
@@ -1207,88 +1194,88 @@ if (relTikerWr) {
 
 
 
-  // GALERY (lightgallery.js) ==============================================================
-let galleryItems = [];
-function initGalleries() {
-    const galleries = document.querySelectorAll('[data-gallery]');
-    if (galleries.length) {
-        galleries.forEach(gallery => {
-            galleryItems.push({
-                gallery,
-                galleryClass: lightGallery(gallery, {
-                    plugins: [
-                        lgZoom, 
-                        // lgRotate
-                    ],
-                    selector: '.wp-block-image a',
-                    licenseKey: '7EC452A9-0CFD441C-BD984C7C-17C8456E',
-                    mobileSettings: {
-                      speed: 500,
-                      showCloseIcon: true,
-                      controls: false, 
-                      counter: true,
-                      closeOnTap: true,
+//   // GALERY (lightgallery.js) ==============================================================
+// let galleryItems = [];
+// function initGalleries() {
+//     const galleries = document.querySelectorAll('[data-gallery]');
+//     if (galleries.length) {
+//         galleries.forEach(gallery => {
+//             galleryItems.push({
+//                 gallery,
+//                 galleryClass: lightGallery(gallery, {
+//                     plugins: [
+//                         lgZoom, 
+//                         // lgRotate
+//                     ],
+//                     selector: '.wp-block-image a',
+//                     licenseKey: '7EC452A9-0CFD441C-BD984C7C-17C8456E',
+//                     mobileSettings: {
+//                       speed: 500,
+//                       showCloseIcon: true,
+//                       controls: false, 
+//                       counter: true,
+//                       closeOnTap: true,
 
-                      easing: "ease",
-                      hideScrollbar: false,
-                      resetScrollPosition: true,
+//                       easing: "ease",
+//                       hideScrollbar: false,
+//                       resetScrollPosition: true,
                       
                       
-                      // zoomFromOrigin: false,
-                      // actualSize: false,
-                      // zoom: false,
-                      zoomFromOrigin: true,
-                      actualSize: true,
-                      zoom: true,
-                      scale: 1,
+//                       // zoomFromOrigin: false,
+//                       // actualSize: false,
+//                       // zoom: false,
+//                       zoomFromOrigin: true,
+//                       actualSize: true,
+//                       zoom: true,
+//                       scale: 1,
                       
                       
-                      // rotate: true,
-                      // flipHorizontal: true,
-                      // flipVertical: true,
-                      // rotateLeft: true,
-                      // rotateRight: true,
-                    },
-                })
-            });
-        });
-    }
-}
+//                       // rotate: true,
+//                       // flipHorizontal: true,
+//                       // flipVertical: true,
+//                       // rotateLeft: true,
+//                       // rotateRight: true,
+//                     },
+//                 })
+//             });
+//         });
+//     }
+// }
 
-function destroyGalleries() {
-  galleryItems.forEach(item => {
-      item.galleryClass.destroy();
-    });
-    // Очистка массива после удаления всех галерей
-    galleryItems = []; 
-}
+// function destroyGalleries() {
+//   galleryItems.forEach(item => {
+//       item.galleryClass.destroy();
+//     });
+//     // Очистка массива после удаления всех галерей
+//     galleryItems = []; 
+// }
 
-function handleLinkClick(event) {
-  if (window.innerWidth > 480) {
-      event.preventDefault();
-  }
-}
+// function handleLinkClick(event) {
+//   if (window.innerWidth > 480) {
+//       event.preventDefault();
+//   }
+// }
 
-function checkAndInitGalleries() {
-  const links = document.querySelectorAll('.wp-block-image a');
+// function checkAndInitGalleries() {
+//   const links = document.querySelectorAll('.wp-block-image a');
 
-  if (window.innerWidth <= 480) {
-      if (galleryItems.length === 0) {
-          initGalleries();
-      }
-  } else {
-      if (galleryItems.length > 0) {
-          destroyGalleries();
-      }
-      links.forEach(link => {
-          link.addEventListener('click', handleLinkClick);
-      });
-  }
-}
+//   if (window.innerWidth <= 480) {
+//       if (galleryItems.length === 0) {
+//           initGalleries();
+//       }
+//   } else {
+//       if (galleryItems.length > 0) {
+//           destroyGalleries();
+//       }
+//       links.forEach(link => {
+//           link.addEventListener('click', handleLinkClick);
+//       });
+//   }
+// }
 
-checkAndInitGalleries();
+// checkAndInitGalleries();
 
-window.addEventListener('resize', () => {
-  checkAndInitGalleries();
-});
-// ============================================================================================
+// window.addEventListener('resize', () => {
+//   checkAndInitGalleries();
+// });
+// // ============================================================================================
