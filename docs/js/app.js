@@ -5559,11 +5559,10 @@
                 observer: true,
                 observeParents: true,
                 slidesPerView: 1,
-                speed: 800,
-                spaceBetween: 20,
+                speed: 1e3,
                 loop: true,
                 autoplay: {
-                    delay: 1500,
+                    delay: 2500,
                     pauseOnMouseEnter: true
                 },
                 effect: "fade",
