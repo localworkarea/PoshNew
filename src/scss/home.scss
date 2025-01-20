@@ -4451,13 +4451,13 @@
   &__body {
     @media (min-width: em(820.98)){
       position: sticky;
-      top: toRem(30);
-      overflow-y: auto;
-      overflow-x: hidden;
-      height: 100vh;
-      // height: 100%;
-      // min-height: 100%;
-      padding-bottom: toRem(80);
+      top: toRem(70);
+      // overflow-y: auto;
+      // overflow-x: hidden;
+      // height: 100vh;
+      // padding-bottom: toRem(80);
+
+
       // mask: 
       // linear-gradient(
       //     to top, 
