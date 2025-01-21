@@ -7454,6 +7454,14 @@
                     faqBody.classList.remove("_form-open");
                 }));
             }
+            const articleElements = document.querySelectorAll(".article");
+            articleElements.forEach((article => {
+                const blockquoteElements = article.querySelectorAll("blockquote");
+                blockquoteElements.forEach((blockquote => {
+                    const linkElement = blockquote.querySelector("a");
+                    if (linkElement) linkElement.innerHTML = `<span>${linkElement.textContent}</span>`;
+                }));
+            }));
         }));
         const tikers = document.querySelectorAll(".tiker");
         tikers.forEach((tiker => {

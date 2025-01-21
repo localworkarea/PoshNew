@@ -3209,6 +3209,72 @@ p {
   background-color: #fbfaf9;
   border-radius: 1.5625rem
 }
+.article__body blockquote p {
+  line-height: 1.3
+}
+.article__body blockquote a {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  width: 100%;
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  padding: 0 2.8125rem;
+  overflow: hidden;
+  position: relative;
+  border: .0625rem solid #3286db;
+  color: #fefefe;
+  background-color: #3286db;
+  border-radius: 1.5625rem;
+  transition: color .3s ease
+}
+.article__body blockquote a span {
+  position: relative;
+  z-index: 2
+}
+.article__body blockquote a::after {
+  content: "";
+  background-image: url(../img/icon/arr-btn.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: .875rem;
+  aspect-ratio: 14/12;
+  -webkit-filter: invert(100%) sepia(0) saturate(7427%) hue-rotate(314deg) brightness(125%) contrast(99%);
+  filter: invert(100%) sepia(0) saturate(7427%) hue-rotate(314deg) brightness(125%) contrast(99%);
+  transition: -webkit-transform .35s ease 0s,-webkit-filter 0s 0s;
+  transition: transform .35s ease 0s,filter 0s 0s;
+  transition: transform .35s ease 0s,filter 0s 0s,-webkit-transform .35s ease 0s,-webkit-filter 0s 0s
+}
+.article__body blockquote a::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  border-radius: 1.5rem;
+  background-color: #fefefe;
+  transition: width .5s ease
+}
+.article__body blockquote a:hover {
+  color: #1a1f35
+}
+.article__body blockquote a:hover::before {
+  width: 100%
+}
+.article__body blockquote a:hover::after {
+  -webkit-transform: translateX(10px);
+  transform: translateX(10px);
+  transition-delay: .2s;
+  -webkit-filter: invert(11%) sepia(44%) saturate(679%) hue-rotate(192deg) brightness(91%) contrast(96%);
+  filter: invert(11%) sepia(44%) saturate(679%) hue-rotate(192deg) brightness(91%) contrast(96%)
+}
 .article__body ul li {
   position: relative;
   padding-left: 1rem
@@ -3302,9 +3368,6 @@ p {
 .aside__link-appr.btn-mask {
   max-width: 100%!important
 }
-.aside__link-appr.btn-mask .btn-mask__body {
-  height: 3rem!important
-}
 .aside__link-appr.btn-mask .btn-mask__txt {
   font-size: 1.5rem!important
 }
@@ -3331,9 +3394,6 @@ p {
 }
 .works__link.btn-mask {
   max-width: 100%!important
-}
-.works__link.btn-mask .btn-mask__body {
-  height: 3rem!important
 }
 .works__link.btn-mask .btn-mask__txt {
   font-size: 1.5rem!important
@@ -5400,6 +5460,15 @@ p {
   .our-serv__item p {
     font-size: 1rem
   }
+  .article__body blockquote a {
+    min-height: 3rem
+  }
+  .aside__link-appr.btn-mask .btn-mask__body {
+    height: 3rem!important
+  }
+  .works__link.btn-mask .btn-mask__body {
+    height: 3rem!important
+  }
   .retail__hero {
     margin-bottom: 5rem
   }
@@ -6836,7 +6905,7 @@ p {
   .article__body blockquote {
     padding-inline: 2.375rem
   }
-  .article__body blockquote {
+  .article__body blockquote p {
     font-size: 1.5rem
   }
   .logics__title,
@@ -8272,6 +8341,9 @@ p {
   }
 }
 @media (max-width:51.31125em) {
+  .article__container {
+    margin-bottom: 3.125rem
+  }
   .article__body {
     margin-bottom: 3.75rem
   }
@@ -9649,8 +9721,11 @@ p {
   .article__body blockquote {
     padding-inline: 1.0625rem
   }
-  .article__body blockquote {
+  .article__body blockquote p {
     font-size: 1rem
+  }
+  .article__body blockquote a {
+    min-height: 2.5625rem
   }
   .logics__title,
   .steps-a__title,
@@ -10693,7 +10768,7 @@ p {
   .article__body blockquote {
     padding-inline: clamp(1.0625rem ,.3499873025rem + 2.3702031603vw ,2.375rem)
   }
-  .article__body blockquote {
+  .article__body blockquote p {
     font-size: clamp(1rem ,.7285665914rem + .9029345372vw ,1.5rem)
   }
   .logics__title,

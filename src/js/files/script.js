@@ -1017,6 +1017,27 @@ document.addEventListener("DOMContentLoaded", function() {
       }
       // ===========================================================================
 
+
+      // Находим все элементы с классом 'article'
+  const articleElements = document.querySelectorAll('.article');
+
+  // Перебираем каждый элемент 'article'
+  articleElements.forEach(article => {
+    // Находим все <blockquote> внутри текущего 'article'
+    const blockquoteElements = article.querySelectorAll('blockquote');
+    
+    // Перебираем каждый <blockquote>
+    blockquoteElements.forEach(blockquote => {
+      // Находим <a> внутри текущего <blockquote>
+      const linkElement = blockquote.querySelector('a');
+
+      if (linkElement) {
+        // Оборачиваем весь текст внутри <a> в <span>
+        linkElement.innerHTML = `<span>${linkElement.textContent}</span>`;
+      }
+    });
+  });
+
     
   }); // END OF DOMContentLoaded ----------------------------------------------------------------------------
   
