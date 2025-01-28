@@ -3035,7 +3035,12 @@ p {
   background-color: #fefefe
 }
 .services__slider {
+  opacity: 0;
   overflow: visible!important
+}
+.loaded .services__slider {
+  opacity: 1;
+  transition: opacity .3s ease
 }
 .services__slider:not(:last-child) {
   margin-bottom: 4.6875rem
@@ -5445,6 +5450,14 @@ p {
   .services__texts p {
     font-size: 1.0625rem
   }
+  .services__slide {
+    display: flex;
+    flex-direction: column
+  }
+  .slide-serv.slide-info {
+    max-width: -webkit-min-content;
+    max-width: min-content
+  }
   .main-serv__info p {
     font-size: 1.0625rem
   }
@@ -6306,18 +6319,6 @@ p {
   .services__tickers {
     padding-top: 3.125rem
   }
-  .services__slider.slider-1 .services__wrapper {
-    -webkit-transform: translate3d(-240px,0,0);
-    transform: translate3d(-240px,0,0)
-  }
-  .services__slider.slider-2 .services__wrapper {
-    -webkit-transform: translate3d(-195px,0,0);
-    transform: translate3d(-195px,0,0)
-  }
-  .services__slider.slider-3 .services__wrapper {
-    -webkit-transform: translate3d(-120px,0,0);
-    transform: translate3d(-120px,0,0)
-  }
 }
 @media (min-width:66.93625em) {
   .shelf__title {
@@ -6800,11 +6801,14 @@ p {
   .slide-serv {
     border-radius: 2.625rem
   }
-  .slide-serv {
+  .slide-serv:not(.slide-info) {
     max-width: 23rem
   }
   .slide-serv.slide-info {
     padding: 2.5rem
+  }
+  .slide-serv.slide-info {
+    min-width: 23rem
   }
   .slide-serv h3 {
     font-size: 3rem
@@ -9603,16 +9607,12 @@ p {
     padding-bottom: 4.625rem
   }
   .services__slide {
-    width: calc(100vw - 3.625rem)
+    min-width: calc(100vw - 3.625rem);
+    max-width: -webkit-min-content;
+    max-width: min-content
   }
   .slide-serv {
     border-radius: 1.875rem
-  }
-  .slide-serv {
-    max-width: 20.9375rem
-  }
-  .slide-serv {
-    max-width: none!important
   }
   .slide-serv.slide-info {
     padding: 1.875rem
@@ -10672,11 +10672,14 @@ p {
   .slide-serv {
     border-radius: clamp(1.875rem ,1.4678498871rem + 1.3544018059vw ,2.625rem)
   }
-  .slide-serv {
+  .slide-serv:not(.slide-info) {
     max-width: clamp(20.9375rem ,19.8178371896rem + 3.7246049661vw ,23rem)
   }
   .slide-serv.slide-info {
     padding: clamp(1.875rem ,1.5357082393rem + 1.1286681716vw ,2.5rem)
+  }
+  .slide-serv.slide-info {
+    min-width: clamp(20.9375rem ,19.8178371896rem + 3.7246049661vw ,23rem)
   }
   .slide-serv__img,
   .slide-serv__video {

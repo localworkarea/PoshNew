@@ -1482,3 +1482,36 @@ function updateScrollTrigger() {
 }
 
 
+
+
+function initSliders() {
+  if (document.querySelector('.services__slider')) {
+    new Swiper('.services__slider', { 
+      modules: [FreeMode],
+      observer: true,
+      observeParents: true,
+      slidesPerView: "auto",
+      speed: 800,
+      freeMode: {
+        enabled: true,
+        momentumBounce: false,
+      },
+      nested: true,
+      breakpoints: {
+        300: {
+          spaceBetween: 20,
+        },
+        769: {
+          spaceBetween: 37,
+        }
+      },
+      on: {
+      }
+    });
+  }
+}
+window.addEventListener("load", function (e) {
+
+	initSliders();
+	
+});

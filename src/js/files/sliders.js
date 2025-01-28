@@ -349,30 +349,71 @@ function initSliders() {
 		});
 	}
 	// == page SERVICES.HTML ===========
+	// if (document.querySelector('.services__slider')) {
+	// 	new Swiper('.services__slider', { 
+	// 		modules: [FreeMode],
+	// 		observer: true,
+	// 		observeParents: true,
+	// 		slidesPerView: "auto",
+	// 		speed: 800,
+	// 		freeMode: {
+	// 			enabled: true,
+	// 			momentumBounce: false,
+	// 		},
+	// 		nested: true,
+	// 		breakpoints: {
+	// 			300: {
+	// 				spaceBetween: 20,
+	// 			},
+	// 			769: {
+	// 				spaceBetween: 37,
+	// 			}
+	// 		},
+	// 		on: {
+	// 		}
+	// 	});
+	// }
 	if (document.querySelector('.services__slider')) {
-		new Swiper('.services__slider', { 
-			modules: [FreeMode],
-			observer: true,
-			observeParents: true,
-			slidesPerView: "auto",
-			speed: 800,
-			freeMode: {
-				enabled: true,
-				momentumBounce: false,
-			},
-			nested: true,
-			breakpoints: {
-				300: {
-					spaceBetween: 20,
-				},
-				769: {
-					spaceBetween: 37,
+    const sliders = document.querySelectorAll('.services__slider');
+
+    sliders.forEach((slider) => {
+      const wrapper = slider.querySelector('.services__wrapper');
+
+      // Установка начального смещения в зависимости от класса slider и рабоате выше чем 1050.98рх
+			if (window.matchMedia('(min-width: 65.686em)').matches) {
+				if (slider.classList.contains('slider-1')) {
+					wrapper.style.transform = 'translate3d(-240px, 0px, 0px)';
+				} else if (slider.classList.contains('slider-2')) {
+					wrapper.style.transform = 'translate3d(-195px, 0px, 0px)';
+				} else if (slider.classList.contains('slider-3')) {
+					wrapper.style.transform = 'translate3d(-120px, 0px, 0px)';
 				}
-			},
-			on: {
 			}
-		});
-	}
+
+      // Инициализация Swiper
+      new Swiper(slider, {
+        modules: [FreeMode],
+        observer: true,
+        observeParents: true,
+        slidesPerView: "auto",
+        speed: 800,
+        freeMode: {
+          enabled: true,
+          momentumBounce: false,
+        },
+        nested: true,
+        breakpoints: {
+          300: {
+            spaceBetween: 20,
+          },
+          769: {
+            spaceBetween: 37,
+          }
+        },
+        on: {},
+      });
+    });
+  }
 	// == page SERVICE.HTML ===========
 	if (document.querySelector('.nav-serv__slider')) {
 		new Swiper('.nav-serv__slider', { 

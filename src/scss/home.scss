@@ -3679,8 +3679,14 @@
 	// .services__cases
 	&__cases {
 	}
+  // .services__slider
   &__slider {
+    opacity: 0;
     overflow: visible !important;
+    .loaded & {
+      opacity: 1;
+      transition: opacity .3s ease;
+    }
     &:not(:last-child) {
       margin-bottom: toRem(75);
     }
@@ -3692,9 +3698,9 @@
   
     &.slider-1 {
       .services__wrapper {
-        @media (min-width: em(1050.98)){
-          transform: translate3d(-240px, 0, 0);
-        }
+        // @media (min-width: em(1050.98)){
+          // transform: translate3d(-240px, 0, 0);
+        // }
       }
       .services__slide {
         @media (max-width: em(1050.98)){
@@ -3718,9 +3724,9 @@
     }
     &.slider-2 {
       .services__wrapper {
-        @media (min-width: em(1050.98)){
-          transform: translate3d(-195px, 0, 0);
-        }
+        // @media (min-width: em(1050.98)){
+        //   transform: translate3d(-195px, 0, 0);
+        // }
       }
       .services__slide {
         @media (max-width: em(1050.98)){
@@ -3743,11 +3749,11 @@
       }
     }
     &.slider-3 {
-      .services__wrapper {
-        @media (min-width: em(1050.98)){
-          transform: translate3d(-120px, 0, 0);
-        }
-      }
+      // .services__wrapper {
+      //   @media (min-width: em(1050.98)){
+      //     transform: translate3d(-120px, 0, 0);
+      //   }
+      // }
     }
    }
   // .services__wrapper
@@ -3755,8 +3761,13 @@
   }
   // .services__slide
   &__slide {
+    @media (min-width:$mobileSmall){
+      display: flex;
+      flex-direction: column;
+    }    
     @media (max-width:$mobileSmall){
-       width: calc(100vw - toRem(58)); 
+      min-width: calc(100vw - toRem(58)); 
+      max-width: min-content;
     }
   }
 }
@@ -3772,13 +3783,6 @@
 
   width: 100%;
   @include adaptiveValue("border-radius", 42,30,0,1366.98,480.98 );
-  // @include adaptiveValue("min-width", 368, 335,0,1366.98,480.98);
-  @include adaptiveValue("max-width", 368, 335,0,1366.98,480.98);
-  @media (max-width:$mobileSmall){
-     max-width: none !important;
-    //  width: 100%; 
-    //  min-width: none !important;
-  }
   @media (any-hover: hover){
     &:hover{
       img {
@@ -3786,9 +3790,23 @@
       }
     }
   }
-
+  &:not(.slide-info) {
+    @include adaptiveValue("max-width", 368, 335,2,1366.98,480.98);
+    // @media (max-width:$mobileSmall){
+      // max-width: none !important;
+      //  width: 100%; 
+      //  min-width: none !important;
+    // }
+  }
   &.slide-info {
     @include adaptiveValue("padding", 40, 30,0,1366.98,480.98);
+    @include adaptiveValue("min-width", 368, 335,2,1366.98,480.98);
+    @media (min-width:$mobileSmall){
+      max-width: min-content;
+    }
+    // @media (max-width:$mobileSmall){
+    //    min-width: auto; 
+    // }
   }
   h3 {
     @include adaptiveValue("font-size", 48, 44,0,1366.98,768.98);
