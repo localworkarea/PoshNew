@@ -194,15 +194,6 @@
     (() => {
         "use strict";
         const flsModules = {};
-        function isVideoHero() {
-            document.addEventListener("DOMContentLoaded", (function() {
-                const video = document.getElementById("heroVideo");
-                if (video) {
-                    const isMobile = window.innerWidth < 480;
-                    video.poster = isMobile ? "files/poster-mb.webp" : "files/poster-pc.webp";
-                }
-            }));
-        }
         let isMobile = {
             Android: function() {
                 return navigator.userAgent.match(/Android/i);
@@ -7763,7 +7754,6 @@
             document.addEventListener("DOMContentLoaded", init);
         })();
         window["FLS"] = false;
-        isVideoHero();
         addTouchClass();
         addLoadedClass();
         menuInit();

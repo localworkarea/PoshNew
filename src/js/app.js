@@ -36,7 +36,7 @@ import * as flsFunctions from "./files/functions.js";
 /* (i) необхідно для коректного відображення webp із css */
 // flsFunctions.isWebp();
 
-flsFunctions.isVideoHero();
+// flsFunctions.isVideoHero();
 
 /* Додавання класу touch для HTML якщо браузер мобільний */
 flsFunctions.addTouchClass();
