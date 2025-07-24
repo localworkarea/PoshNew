@@ -110,7 +110,8 @@ summary {
 }
 body {
   min-height: 100%;
-  transition: opacity .3s
+  transition: opacity .3s;
+  background-color: #1a1f35
 }
 body._reload {
   opacity: 0;

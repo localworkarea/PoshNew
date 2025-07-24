@@ -18,7 +18,7 @@
 								<source src="files/posh-hero-2.mp4" width="1920" height="1080" type="video/mp4" media="(min-width: 30.061em)" />
 								<source src="files/posh-hero-3.mp4" width="374" height="450" type="video/mp4" media="(max-width: 30.061em)" />
 							</video> -->
-							<video autoplay loop muted playsinline id="heroVideo" class="hero__video ibg" poster="files/poster-pc.webp">
+							<video data-preloader autoplay loop muted playsinline id="heroVideo" class="hero__video ibg" poster="files/poster-pc.webp">
 								<source src="files/posh-hero-2.mp4" width="1920" height="1080" type="video/mp4" media="(min-width: 30.061em)" />
 								<source src="files/posh-hero-3.mp4" width="374" height="450" type="video/mp4" media="(max-width: 30.061em)" />
 							</video>
@@ -123,7 +123,7 @@
 								<picture>
 									<source media="(min-width: 62.06125em)" srcset="img/shelf-main-pc.svg" type="image/svg+xml">
 									<source media="(max-width: 62.06125em)" srcset="img/shelf-main-mb.png" type="image/webp">
-									<img class="about-main__shelf" src="img/shelf-main-pc.png" width="737" height="507" alt="полка з товарами">
+									<img class="about-main__shelf" src="img/shelf-main-pc.svg" width="737" height="507" alt="полка з товарами">
 								</picture>
 							</div>
 							<picture>
@@ -721,6 +721,8 @@
 	</div>
 	
 	
+	@@include('html/_preloader.htm',{})
+	@@include('html/_js-hom.htm',{})
 	@@include('html/_js.htm',{})
 </body>
 

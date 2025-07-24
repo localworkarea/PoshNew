@@ -68,6 +68,7 @@ body {
 	min-height: 100%;
 	// Скролл заблоковано
 	transition: opacity .3s;
+	background-color: #1A1F35;
 	// overscroll-behavior: none;
 	&._reload  {
 		opacity: 0;
