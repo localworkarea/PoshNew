@@ -195,11 +195,11 @@
         "use strict";
         const flsModules = {};
         function isVideoHero() {
-            window.addEventListener("DOMContentLoaded", (function() {
+            document.addEventListener("DOMContentLoaded", (function() {
                 const video = document.getElementById("heroVideo");
                 if (video) {
                     const isMobile = window.innerWidth < 480;
-                    video.poster = isMobile ? "files/video-mob.webp" : "files/video.webp";
+                    video.poster = isMobile ? "files/poster-mb.webp" : "files/poster-pc.webp";
                 }
             }));
         }
