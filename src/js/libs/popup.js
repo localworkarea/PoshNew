@@ -102,7 +102,7 @@ class Popup {
 		this.options.init ? this.initPopups() : null
 	}
 	initPopups() {
-		this.popupLogging(`Прокинувся`);
+		// this.popupLogging(`Прокинувся`);
 		this.eventsPopup();
 	}
 	eventsPopup() {
@@ -115,9 +115,7 @@ class Popup {
 				this._dataValue = buttonOpen.getAttribute(this.options.attributeOpenButton) ?
 					buttonOpen.getAttribute(this.options.attributeOpenButton) :
 					'error';
-				// this.youTubeCode = buttonOpen.getAttribute(this.options.youtubeAttribute) ?
-				// 	buttonOpen.getAttribute(this.options.youtubeAttribute) :
-				// 	null;
+				
 				if (this._dataValue !== 'error') {
 					if (!this.isOpen) this.lastFocusEl = buttonOpen;
 					this.targetOpen.selector = `${this._dataValue}`;
@@ -125,17 +123,18 @@ class Popup {
 					this.open();
 					return;
 
-				} else this.popupLogging(`Йой, не заповнено атрибут у ${buttonOpen.classList}`);
+				} 
 
 				return;
 			}
 			// Закриття на порожньому місці (popup__wrapper) та кнопки закриття (popup__close) для закриття
+			const isNextButton = e.target.closest('.popup-case__next');
 			const buttonClose = e.target.closest(`[${this.options.attributeCloseButton}]`);
-			// if (buttonClose || !e.target.closest(`.${this.options.classes.popupContent}`) && this.isOpen) {
-			// 	e.preventDefault();
-			// 	this.close();
-			// 	return;
-			// }
+			if (buttonClose || !e.target.closest(`.${this.options.classes.popupContent}`) && this.isOpen  && !isNextButton) {
+				e.preventDefault();
+				this.close();
+				return;
+			}
 			if (buttonClose) {
         e.preventDefault();
         this.close();
@@ -175,12 +174,12 @@ class Popup {
 	}
 	open(selectorValue) {
 		if (bodyLockStatus) {
-			const scrollY = window.scrollY; // Сохраняем текущую позицию скролла
-			document.body.style.top = `-${scrollY}px`;
-			document.body.style.position = 'fixed';
-			document.body.style.left = '0';
-			document.body.style.right = '0';
-			document.body.style.width = '100%';
+			// const scrollY = window.scrollY; // Сохраняем текущую позицию скролла
+			// document.body.style.top = `-${scrollY}px`;
+			// document.body.style.position = 'fixed';
+			// document.body.style.left = '0';
+			// document.body.style.right = '0';
+			// document.body.style.width = '100%';
 
 
 			// Якщо перед відкриттям попапа був режим lock
@@ -191,6 +190,9 @@ class Popup {
 				this.targetOpen.selector = selectorValue;
 				this._selectorOpen = true;
 			}
+
+			
+
 			if (this.isOpen) {
 				this._reopen = true;
 				this.close();
@@ -201,23 +203,7 @@ class Popup {
 			this.targetOpen.element = document.querySelector(this.targetOpen.selector);
 
 			if (this.targetOpen.element) {
-				// // YouTube
-				// if (this.youTubeCode) {
-				// 	const codeVideo = this.youTubeCode;
-				// 	const urlVideo = `https://www.youtube.com/embed/${codeVideo}?rel=0&showinfo=0&autoplay=1`
-				// 	const iframe = document.createElement('iframe');
-				// 	iframe.setAttribute('allowfullscreen', '');
-
-				// 	const autoplay = this.options.setAutoplayYoutube ? 'autoplay;' : '';
-				// 	iframe.setAttribute('allow', `${autoplay}; encrypted-media`);
-
-				// 	iframe.setAttribute('src', urlVideo);
-
-				// 	if (!this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`)) {
-				// 		const youtubePlace = this.targetOpen.element.querySelector('.popup__text').setAttribute(`${this.options.youtubePlaceAttribute}`, '');
-				// 	}
-				// 	this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`).appendChild(iframe);
-				// }
+			
 				if (this.options.hashSettings.location) {
 					// Отримання хешу та його виставлення
 					this._getHash();
@@ -226,7 +212,6 @@ class Popup {
 
 				// До відкриття
 				this.options.on.beforeOpen(this);
-				// Створюємо свою подію після відкриття попапа
 				document.dispatchEvent(new CustomEvent("beforePopupOpen", {
 					detail: {
 						popup: this
@@ -251,21 +236,52 @@ class Popup {
 
 				this.isOpen = true;
 
+
+				// добавляем класс к хедеру чтобы появился,  при скролле добавляем и удаляем класс ======================
+
+				const header = document.querySelector('header');
+				const scrollContainer = this.targetOpen.element; // сам .popup
+
+				if (header && !header.classList.contains('_header-show')) {
+					header.classList.add('_header-show');
+				}
+
+				if (header && scrollContainer) {
+					let lastScrollTop = scrollContainer.scrollTop;
+				
+					this._popupScrollHandler = function () {
+					const scrollTop = scrollContainer.scrollTop;
+					const delta = scrollTop - lastScrollTop;
+					
+					if (delta > 5) {
+						header.classList.remove('_header-show'); // Скролл вниз
+					} else if (delta < -5) {
+						header.classList.add('_header-show'); // Скролл вверх
+					}
+				
+					lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+				};
+
+
+					scrollContainer.addEventListener('scroll', this._popupScrollHandler);
+				}
+
+
+
 				setTimeout(() => {
 					this._focusTrap();
 				}, 50);
 
 				// Після відкриття
 				this.options.on.afterOpen(this);
-				// Створюємо свою подію після відкриття попапа
+
 				document.dispatchEvent(new CustomEvent("afterPopupOpen", {
 					detail: {
 						popup: this
 					}
 				}));
-				this.popupLogging(`Відкрив попап`);
 
-			} else this.popupLogging(`Йой, такого попапу немає. Перевірте коректність введення. `);
+			} 
 		}
 	}
 	close(selectorValue) {
@@ -277,18 +293,33 @@ class Popup {
 		}
 
 		// Возвращаем страницу на исходную позицию
-		const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10));
-		document.body.style.position = '';
-		document.body.style.top = '';
-		document.body.style.left = '';
-		document.body.style.right = '';
-		document.body.style.width = '';
-		window.scrollTo(0, scrollY);
+		// const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10));
+		// document.body.style.position = '';
+		// document.body.style.top = '';
+		// document.body.style.left = '';
+		// document.body.style.right = '';
+		// document.body.style.width = '';
+		// window.scrollTo(0, scrollY);
 
 
 
 		// До закриття
 		this.options.on.beforeClose(this);
+
+
+		// забираем обработчик отслеживания скролла у попапа =================
+			const scrollContainer = this.previousOpen.element; // это .popup
+			if (scrollContainer && this._popupScrollHandler) {
+				scrollContainer.removeEventListener('scroll', this._popupScrollHandler);
+				this._popupScrollHandler = null;
+			}
+// 			const header = document.querySelector('header');
+// if (header && header.classList.contains('_header-show')) {
+// 	header.classList.remove('_header-show');
+// }
+
+
+
 		// Створюємо свою подію перед закриттям попапа
 		document.dispatchEvent(new CustomEvent("beforePopupClose", {
 			detail: {
@@ -296,11 +327,7 @@ class Popup {
 			}
 		}));
 
-		// // YouTube
-		// if (this.youTubeCode) {
-		// 	if (this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`))
-		// 		this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`).innerHTML = '';
-		// }
+	
 		this.previousOpen.element.classList.remove(this.options.classes.popupActive);
 		// aria-hidden
 		this.previousOpen.element.setAttribute('aria-hidden', 'true');
@@ -327,21 +354,21 @@ class Popup {
 
 
 		// Отслеживание положения case-popup относительно popup-case__content
-		const casePopup = document.querySelector('.case-popup');
-		const popupCaseContent = document.querySelector('.popup-case__content');
+		// const casePopup = document.querySelector('.case-popup');
+		// const popupCaseContent = document.querySelector('.popup-case__content');
 
-		if (popupCaseContent) {
-		    const casePopupRect = casePopup.getBoundingClientRect();
-		    const popupCaseContentRect = popupCaseContent.getBoundingClientRect();
+		// if (popupCaseContent) {
+		//     const casePopupRect = casePopup.getBoundingClientRect();
+		//     const popupCaseContentRect = popupCaseContent.getBoundingClientRect();
 		
-		    if (casePopupRect.top < popupCaseContentRect.top) {
-		        setTimeout(() => {
-		            popupCaseContent.scrollTo({
-		                top: popupCaseContent.scrollTop + (casePopupRect.top - popupCaseContentRect.top),
-		            });
-		        }, 900);
-		    }
-		}
+		//     if (casePopupRect.top < popupCaseContentRect.top) {
+		//         setTimeout(() => {
+		//             popupCaseContent.scrollTo({
+		//                 top: popupCaseContent.scrollTop + (casePopupRect.top - popupCaseContentRect.top),
+		//             });
+		//         }, 900);
+		//     }
+		// }
 
 
 
@@ -349,7 +376,6 @@ class Popup {
 			this._focusTrap();
 		}, 50);
 
-		this.popupLogging(`Закрив попап`);
 	}
 	// Отримання хешу 
 	_getHash() {
@@ -364,10 +390,6 @@ class Popup {
 				null;
 
 		const buttons = document.querySelector(`[${this.options.attributeOpenButton} = "${classInHash}"]`) ? document.querySelector(`[${this.options.attributeOpenButton} = "${classInHash}"]`) : document.querySelector(`[${this.options.attributeOpenButton} = "${classInHash.replace('.', "#")}"]`);
-
-		// this.youTubeCode = buttons.getAttribute(this.options.youtubeAttribute) ?
-		// 	buttons.getAttribute(this.options.youtubeAttribute) :
-		// 	null;
 
 		if (buttons && classInHash) this.open(classInHash);
 	}
@@ -400,10 +422,7 @@ class Popup {
 			focusable[0].focus();
 		}
 	}
-	// Функція виведення в консоль
-	popupLogging(message) {
-		this.options.logging ? FLS(`[Попапос]: ${message}`) : null;
-	}
+
 }
 // Запускаємо та додаємо в об'єкт модулів
 flsModules.popup = new Popup({});

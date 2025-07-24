@@ -693,7 +693,6 @@
                 this.options.init ? this.initPopups() : null;
             }
             initPopups() {
-                this.popupLogging(`Прокинувся`);
                 this.eventsPopup();
             }
             eventsPopup() {
@@ -708,10 +707,16 @@
                             this._selectorOpen = true;
                             this.open();
                             return;
-                        } else this.popupLogging(`Йой, не заповнено атрибут у ${buttonOpen.classList}`);
+                        }
                         return;
                     }
+                    const isNextButton = e.target.closest(".popup-case__next");
                     const buttonClose = e.target.closest(`[${this.options.attributeCloseButton}]`);
+                    if (buttonClose || !e.target.closest(`.${this.options.classes.popupContent}`) && this.isOpen && !isNextButton) {
+                        e.preventDefault();
+                        this.close();
+                        return;
+                    }
                     if (buttonClose) {
                         e.preventDefault();
                         this.close();
@@ -740,12 +745,6 @@
             }
             open(selectorValue) {
                 if (bodyLockStatus) {
-                    const scrollY = window.scrollY;
-                    document.body.style.top = `-${scrollY}px`;
-                    document.body.style.position = "fixed";
-                    document.body.style.left = "0";
-                    document.body.style.right = "0";
-                    document.body.style.width = "100%";
                     this.bodyLock = document.documentElement.classList.contains("lock") && !this.isOpen ? true : false;
                     if (selectorValue && typeof selectorValue === "string" && selectorValue.trim() !== "") {
                         this.targetOpen.selector = selectorValue;
@@ -777,6 +776,19 @@
                         this.previousOpen.element = this.targetOpen.element;
                         this._selectorOpen = false;
                         this.isOpen = true;
+                        const header = document.querySelector("header");
+                        const scrollContainer = this.targetOpen.element;
+                        if (header && !header.classList.contains("_header-show")) header.classList.add("_header-show");
+                        if (header && scrollContainer) {
+                            let lastScrollTop = scrollContainer.scrollTop;
+                            this._popupScrollHandler = function() {
+                                const scrollTop = scrollContainer.scrollTop;
+                                const delta = scrollTop - lastScrollTop;
+                                if (delta > 5) header.classList.remove("_header-show"); else if (delta < -5) header.classList.add("_header-show");
+                                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+                            };
+                            scrollContainer.addEventListener("scroll", this._popupScrollHandler);
+                        }
                         setTimeout((() => {
                             this._focusTrap();
                         }), 50);
@@ -786,21 +798,18 @@
                                 popup: this
                             }
                         }));
-                        this.popupLogging(`Відкрив попап`);
-                    } else this.popupLogging(`Йой, такого попапу немає. Перевірте коректність введення. `);
+                    }
                 }
             }
             close(selectorValue) {
                 if (selectorValue && typeof selectorValue === "string" && selectorValue.trim() !== "") this.previousOpen.selector = selectorValue;
                 if (!this.isOpen || !bodyLockStatus) return;
-                const scrollY = Math.abs(parseInt(document.body.style.top || "0", 10));
-                document.body.style.position = "";
-                document.body.style.top = "";
-                document.body.style.left = "";
-                document.body.style.right = "";
-                document.body.style.width = "";
-                window.scrollTo(0, scrollY);
                 this.options.on.beforeClose(this);
+                const scrollContainer = this.previousOpen.element;
+                if (scrollContainer && this._popupScrollHandler) {
+                    scrollContainer.removeEventListener("scroll", this._popupScrollHandler);
+                    this._popupScrollHandler = null;
+                }
                 document.dispatchEvent(new CustomEvent("beforePopupClose", {
                     detail: {
                         popup: this
@@ -824,21 +833,9 @@
                         popup: this
                     }
                 }));
-                const casePopup = document.querySelector(".case-popup");
-                const popupCaseContent = document.querySelector(".popup-case__content");
-                if (popupCaseContent) {
-                    const casePopupRect = casePopup.getBoundingClientRect();
-                    const popupCaseContentRect = popupCaseContent.getBoundingClientRect();
-                    if (casePopupRect.top < popupCaseContentRect.top) setTimeout((() => {
-                        popupCaseContent.scrollTo({
-                            top: popupCaseContent.scrollTop + (casePopupRect.top - popupCaseContentRect.top)
-                        });
-                    }), 900);
-                }
                 setTimeout((() => {
                     this._focusTrap();
                 }), 50);
-                this.popupLogging(`Закрив попап`);
             }
             _getHash() {
                 if (this.options.hashSettings.location) this.hash = this.targetOpen.selector.includes("#") ? this.targetOpen.selector : this.targetOpen.selector.replace(".", "#");
@@ -870,9 +867,6 @@
             _focusTrap() {
                 const focusable = this.previousOpen.element.querySelectorAll(this._focusEl);
                 if (!this.isOpen && this.lastFocusEl) this.lastFocusEl.focus(); else focusable[0].focus();
-            }
-            popupLogging(message) {
-                this.options.logging ? FLS(`[Попапос]: ${message}`) : null;
             }
         }
         flsModules.popup = new Popup({});
@@ -5466,34 +5460,41 @@
                     }
                 }
             });
-            if (document.querySelector(".services__slider")) {
-                const sliders = document.querySelectorAll(".services__slider");
-                sliders.forEach((slider => {
-                    const wrapper = slider.querySelector(".services__wrapper");
-                    if (window.matchMedia("(min-width: 65.686em)").matches) if (slider.classList.contains("slider-1")) wrapper.style.transform = "translate3d(-240px, 0px, 0px)"; else if (slider.classList.contains("slider-2")) wrapper.style.transform = "translate3d(-195px, 0px, 0px)"; else if (slider.classList.contains("slider-3")) wrapper.style.transform = "translate3d(-120px, 0px, 0px)";
-                    new Swiper(slider, {
-                        modules: [ freeMode ],
-                        observer: true,
-                        observeParents: true,
-                        slidesPerView: "auto",
-                        speed: 800,
-                        freeMode: {
-                            enabled: true,
-                            momentumBounce: false
+            if (document.querySelector(".services__slider")) document.querySelectorAll(".services__slider").forEach((sliderEl => {
+                const swiper = new Swiper(sliderEl, {
+                    modules: [ freeMode ],
+                    observer: true,
+                    observeParents: true,
+                    slidesPerView: "auto",
+                    cssMode: true,
+                    speed: 800,
+                    freeMode: {
+                        enabled: true,
+                        momentumBounce: false
+                    },
+                    nested: true,
+                    breakpoints: {
+                        300: {
+                            spaceBetween: 20
                         },
-                        nested: true,
-                        breakpoints: {
-                            300: {
-                                spaceBetween: 20
-                            },
-                            769: {
-                                spaceBetween: 37
-                            }
-                        },
-                        on: {}
-                    });
-                }));
-            }
+                        769: {
+                            spaceBetween: 37
+                        }
+                    },
+                    on: {
+                        init: function() {
+                            let translateX = 0;
+                            if (sliderEl.classList.contains("slider-1")) translateX = -240; else if (sliderEl.classList.contains("slider-2")) translateX = -195; else if (sliderEl.classList.contains("slider-3")) translateX = -120;
+                            if (this.rtlTranslate) translateX = -translateX;
+                            this.wrapperEl.style.transform = `translate3d(${translateX}px, 0px, 0px)`;
+                        }
+                    }
+                });
+                setTimeout((() => {
+                    swiper.params.cssMode = false;
+                    swiper.wrapperEl.style.scrollBehavior = "auto";
+                }), 1e3);
+            }));
             if (document.querySelector(".nav-serv__slider")) new Swiper(".nav-serv__slider", {
                 modules: [ freeMode ],
                 observer: true,
