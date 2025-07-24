@@ -27,10 +27,15 @@ export function addTouchClass() {
 // Додавання loaded для HTML після повного завантаження сторінки
 export function addLoadedClass() {
 	if (!document.documentElement.classList.contains('loading')) {
-		window.addEventListener("load", function () {
+		// window.addEventListener("load", function () {
+		// 	setTimeout(function () {
+		// 		document.documentElement.classList.add('loaded');
+		// 	}, 0);
+		// });
+		window.addEventListener("DOMContentLoaded", function () {
 			setTimeout(function () {
 				document.documentElement.classList.add('loaded');
-			}, 0);
+			}, 300);
 		});
 	}
 }
