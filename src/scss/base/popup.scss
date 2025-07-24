@@ -153,6 +153,13 @@ body::after {
 		outline: none;
 	}
 	.case-buttons__btn {
+		@extend %hoverLine;
+			&::before {
+				background-color: white !important;
+				@media (max-width:$mobileSmall){
+					 display: none; 
+				}
+			}
 		span {
 			padding-top: toRem(3);
 		}

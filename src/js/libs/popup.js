@@ -174,12 +174,12 @@ class Popup {
 	}
 	open(selectorValue) {
 		if (bodyLockStatus) {
-			// const scrollY = window.scrollY; // Сохраняем текущую позицию скролла
-			// document.body.style.top = `-${scrollY}px`;
-			// document.body.style.position = 'fixed';
-			// document.body.style.left = '0';
-			// document.body.style.right = '0';
-			// document.body.style.width = '100%';
+			const scrollY = window.scrollY; // Сохраняем текущую позицию скролла
+			document.body.style.top = `-${scrollY}px`;
+			document.body.style.position = 'fixed';
+			document.body.style.left = '0';
+			document.body.style.right = '0';
+			document.body.style.width = '100%';
 
 
 			// Якщо перед відкриттям попапа був режим lock
@@ -293,13 +293,15 @@ class Popup {
 		}
 
 		// Возвращаем страницу на исходную позицию
-		// const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10));
-		// document.body.style.position = '';
-		// document.body.style.top = '';
-		// document.body.style.left = '';
-		// document.body.style.right = '';
-		// document.body.style.width = '';
-		// window.scrollTo(0, scrollY);
+		setTimeout(() => {
+			const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10));
+			document.body.style.position = '';
+			document.body.style.top = '';
+			document.body.style.left = '';
+			document.body.style.right = '';
+			document.body.style.width = '';
+			window.scrollTo(0, scrollY);
+		}, 0);
 
 
 
@@ -354,21 +356,21 @@ class Popup {
 
 
 		// Отслеживание положения case-popup относительно popup-case__content
-		// const casePopup = document.querySelector('.case-popup');
-		// const popupCaseContent = document.querySelector('.popup-case__content');
+		const casePopup = document.querySelector('.case-popup');
+		const popupCaseContent = document.querySelector('.popup-case__content');
 
-		// if (popupCaseContent) {
-		//     const casePopupRect = casePopup.getBoundingClientRect();
-		//     const popupCaseContentRect = popupCaseContent.getBoundingClientRect();
+		if (popupCaseContent) {
+		    const casePopupRect = casePopup.getBoundingClientRect();
+		    const popupCaseContentRect = popupCaseContent.getBoundingClientRect();
 		
-		//     if (casePopupRect.top < popupCaseContentRect.top) {
-		//         setTimeout(() => {
-		//             popupCaseContent.scrollTo({
-		//                 top: popupCaseContent.scrollTop + (casePopupRect.top - popupCaseContentRect.top),
-		//             });
-		//         }, 900);
-		//     }
-		// }
+		    if (casePopupRect.top < popupCaseContentRect.top) {
+		        setTimeout(() => {
+		            popupCaseContent.scrollTo({
+		                top: popupCaseContent.scrollTop + (casePopupRect.top - popupCaseContentRect.top),
+		            });
+		        }, 900);
+		    }
+		}
 
 
 

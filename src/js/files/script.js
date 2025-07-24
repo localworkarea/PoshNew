@@ -272,17 +272,132 @@ document.addEventListener("DOMContentLoaded", function() {
     //   updateIndexes();
     // });
 
+
+      // === Mobile slider logic services-main__body ===
+      const MOBILE_BREAKPOINT = 480.98;
+      const container = document.querySelector('.services-main__body');
+      const track = container?.querySelector('.services-main__items.items-serv-left');
+
+      let startX = 0;
+      let currentX = 0;
+      let prevX = 0;
+      let velocity = 0;
+      let translateX = 0;
+      let isDragging = false;
+      let animationFrame;
+      let isMobileActive = false;
+
+      function centerTrack() {
+        const containerWidth = container.offsetWidth;
+        const trackWidth = track.scrollWidth;
+        translateX = (containerWidth - trackWidth) / 2;
+        track.style.transition = 'none';
+        track.style.transform = `translateX(${translateX}px)`;
+      }
+    
+      function onTouchStart(e) {
+        if (!isMobileActive) return;
+        cancelAnimationFrame(animationFrame);
+        isDragging = true;
+        startX = currentX = prevX = e.touches[0].clientX;
+        track.style.transition = 'none';
+      }
+    
+      function onTouchMove(e) {
+        if (!isMobileActive || !isDragging) return;
+        currentX = e.touches[0].clientX;
+        const delta = currentX - startX;
+        track.style.transform = `translateX(${translateX + delta}px)`;
+        velocity = currentX - prevX;
+        prevX = currentX;
+      }
+    
+      function onTouchEnd() {
+        if (!isMobileActive) return;
+        isDragging = false;
+        translateX += currentX - startX;
+      
+        const containerWidth = container.offsetWidth;
+        const trackWidth = track.scrollWidth;
+        const maxTranslate = 0;
+        const minTranslate = containerWidth - trackWidth;
+      
+        function inertia() {
+          velocity *= 0.95;
+          if (Math.abs(velocity) < 0.5) return;
+        
+          translateX += velocity;
+          if (translateX > maxTranslate) {
+            translateX = maxTranslate;
+            return;
+          }
+          if (translateX < minTranslate) {
+            translateX = minTranslate;
+            return;
+          }
+        
+          track.style.transform = `translateX(${translateX}px)`;
+          animationFrame = requestAnimationFrame(inertia);
+        }
+      
+        if (translateX > maxTranslate || translateX < minTranslate) {
+          track.style.transition = 'transform 0.3s ease';
+          translateX = Math.max(Math.min(translateX, maxTranslate), minTranslate);
+          track.style.transform = `translateX(${translateX}px)`;
+        } else {
+          inertia();
+        }
+      }
+    
+      function activateMobileSlider() {
+        if (isMobileActive || !track) return;
+        isMobileActive = true;
+        centerTrack();
+        track.addEventListener('touchstart', onTouchStart, { passive: true });
+        track.addEventListener('touchmove', onTouchMove, { passive: true });
+        track.addEventListener('touchend', onTouchEnd);
+      }
+    
+      function deactivateMobileSlider() {
+        if (!isMobileActive || !track) return;
+        isMobileActive = false;
+        cancelAnimationFrame(animationFrame);
+        track.style.transform = '';
+        track.style.transition = '';
+        track.removeEventListener('touchstart', onTouchStart);
+        track.removeEventListener('touchmove', onTouchMove);
+        track.removeEventListener('touchend', onTouchEnd);
+      }
+    
+      // Активируем на загрузке, если мобильный
+      if (window.innerWidth <= MOBILE_BREAKPOINT) {
+        activateMobileSlider();
+      }
+      // === Mobile slider logic end ===
+    
+
+
+
+
     let lastWidth = window.innerWidth;
     const resizeObserver = new ResizeObserver(entries => {
         requestAnimationFrame(() => {
             entries.forEach(entry => {
                 const currentWidth = entry.contentRect.width;
-                // Запускаем initSplitType() только если изменилась ширина
                 if (currentWidth !== lastWidth) {
                   initSplitType();
                   createSpanInWord();
-                  updateIndexesRel(); // Вызов функции обновления индексов
-                  // updateIndexes();
+                  updateIndexesRel();
+
+
+                  // ⬇Активация/деактивация слайдера
+                    if (currentWidth <= MOBILE_BREAKPOINT && lastWidth > MOBILE_BREAKPOINT) {
+                      activateMobileSlider();
+                    } else if (currentWidth > MOBILE_BREAKPOINT && lastWidth <= MOBILE_BREAKPOINT) {
+                      deactivateMobileSlider();
+                    }
+
+
                     lastWidth = currentWidth; // Обновляем lastWidth
                 }
             });
@@ -1300,3 +1415,121 @@ if (relTikerWr) {
 //   checkAndInitGalleries();
 // });
 // // ============================================================================================
+
+
+(function () {
+  const MOBILE_BREAKPOINT = 480.98;
+  const container = document.querySelector('.services-main__body');
+  const track = container?.querySelector('.services-main__items.items-serv-left');
+
+  if (!container || !track) return;
+
+  let isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+  let startX = 0;
+  let currentX = 0;
+  let prevX = 0;
+  let velocity = 0;
+  let translateX = 0;
+  let isDragging = false;
+  let animationFrame;
+
+  function centerTrack() {
+    const containerWidth = container.offsetWidth;
+    const trackWidth = track.scrollWidth;
+    translateX = (containerWidth - trackWidth) / 2;
+    track.style.transform = `translateX(${translateX}px)`;
+  }
+
+  function onTouchStart(e) {
+    if (!isMobile) return;
+    cancelAnimationFrame(animationFrame); // отменить инерцию
+    isDragging = true;
+    startX = currentX = prevX = e.touches[0].clientX;
+    track.style.transition = 'none';
+  }
+
+  function onTouchMove(e) {
+    if (!isMobile || !isDragging) return;
+    currentX = e.touches[0].clientX;
+    const delta = currentX - startX;
+    const move = translateX + delta;
+    track.style.transform = `translateX(${move}px)`;
+
+    velocity = currentX - prevX; // приблизительная скорость
+    prevX = currentX;
+  }
+
+  function onTouchEnd() {
+    if (!isMobile) return;
+    isDragging = false;
+    translateX += currentX - startX;
+
+    const containerWidth = container.offsetWidth;
+    const trackWidth = track.scrollWidth;
+    const maxTranslate = 0;
+    const minTranslate = containerWidth - trackWidth;
+
+    function inertia() {
+      velocity *= 0.95; // затухание
+
+      if (Math.abs(velocity) < 0.5) return;
+
+      translateX += velocity;
+      if (translateX > maxTranslate) {
+        translateX = maxTranslate;
+        return;
+      }
+      if (translateX < minTranslate) {
+        translateX = minTranslate;
+        return;
+      }
+
+      track.style.transform = `translateX(${translateX}px)`;
+      animationFrame = requestAnimationFrame(inertia);
+    }
+
+    // Плавное возвращение, если вышли за пределы
+    if (translateX > maxTranslate || translateX < minTranslate) {
+      track.style.transition = 'transform 0.3s ease';
+      translateX = Math.max(Math.min(translateX, maxTranslate), minTranslate);
+      track.style.transform = `translateX(${translateX}px)`;
+    } else {
+      inertia(); // запуск инерции
+    }
+  }
+
+  function init() {
+    isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+
+    if (isMobile) {
+      centerTrack();
+      track.addEventListener('touchstart', onTouchStart, { passive: true });
+      track.addEventListener('touchmove', onTouchMove, { passive: true });
+      track.addEventListener('touchend', onTouchEnd);
+      window.addEventListener('resize', onResize);
+    } else {
+      reset();
+    }
+  }
+
+  function reset() {
+    track.style.transform = '';
+    track.style.transition = '';
+    cancelAnimationFrame(animationFrame);
+    track.removeEventListener('touchstart', onTouchStart);
+    track.removeEventListener('touchmove', onTouchMove);
+    track.removeEventListener('touchend', onTouchEnd);
+    window.removeEventListener('resize', onResize);
+  }
+
+  function onResize() {
+    isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+    if (isMobile) {
+      centerTrack();
+    } else {
+      reset();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();

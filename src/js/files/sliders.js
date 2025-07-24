@@ -348,158 +348,7 @@ function initSliders() {
 			},
 		});
 	}
-	// == page SERVICES.HTML ===========
-	// if (document.querySelector('.services__slider')) {
-	// 	new Swiper('.services__slider', { 
-	// 		modules: [FreeMode],
-	// 		observer: true,
-	// 		observeParents: true,
-	// 		slidesPerView: "auto",
-	// 		speed: 800,
-	// 		freeMode: {
-	// 			enabled: true,
-	// 			momentumBounce: false,
-	// 		},
-	// 		nested: true,
-	// 		breakpoints: {
-	// 			300: {
-	// 				spaceBetween: 20,
-	// 			},
-	// 			769: {
-	// 				spaceBetween: 37,
-	// 			}
-	// 		},
-	// 		on: {
-	// 		}
-	// 	});
-	// }
-	if (document.querySelector('.services__slider')) {
-    // const sliders = document.querySelectorAll('.services__slider');
 
-		// // Инициализация Swiper
-		// new Swiper('.services__slider', {
-		// 	modules: [FreeMode],
-		// 	observer: true,
-		// 	observeParents: true,
-		// 	slidesPerView: "auto",
-		// 	speed: 800,
-		// 	freeMode: {
-		// 		enabled: true,
-		// 		momentumBounce: false,
-		// 	},
-		// 	nested: true,
-		// 	breakpoints: {
-		// 		300: {
-		// 			spaceBetween: 20,
-		// 		},
-		// 		769: {
-		// 			spaceBetween: 37,
-		// 		}
-		// 	},
-		// 	on: {},
-		// });
-
-    // sliders.forEach((slider) => {
-    //   const wrapper = slider.querySelector('.services__wrapper');
-
-    //   // Установка начального смещения в зависимости от класса slider и рабоате выше чем 1050.98рх
-		// 	if (window.matchMedia('(min-width: 65.686em)').matches) {
-		// 		if (slider.classList.contains('slider-1')) {
-		// 			wrapper.style.transform = 'translate3d(-240px, 0px, 0px)';
-		// 		} else if (slider.classList.contains('slider-2')) {
-		// 			wrapper.style.transform = 'translate3d(-195px, 0px, 0px)';
-		// 		} else if (slider.classList.contains('slider-3')) {
-		// 			wrapper.style.transform = 'translate3d(-120px, 0px, 0px)';
-		// 		}
-		// 	}
-
-    // });
-
-
-		// document.querySelectorAll('.services__slider').forEach((sliderEl) => {
-		// 	const swiper = new Swiper(sliderEl, {
-		// 		modules: [FreeMode],
-		// 		observer: true,
-		// 		observeParents: true,
-		// 		slidesPerView: "auto",
-		// 		cssMode: true,
-		// 		speed: 800,
-		// 		freeMode: {
-		// 			enabled: true,
-		// 			momentumBounce: false,
-		// 		},
-		// 		nested: true,
-		// 		breakpoints: {
-		// 			300: { spaceBetween: 20 },
-		// 			769: { spaceBetween: 37 },
-		// 		},
-		// 		on: {
-		// 			init: function () {
-		// 					let translateX = 0;
-		
-		// 					if (sliderEl.classList.contains('slider-1')) {
-		// 						translateX = -240;
-		// 					} else if (sliderEl.classList.contains('slider-2')) {
-		// 						translateX = -195;
-		// 					} else if (sliderEl.classList.contains('slider-3')) {
-		// 						translateX = -120;
-		// 					}
-		
-		// 					if (this.rtlTranslate) {
-		// 						translateX = -translateX;
-		// 					}
-		
-		// 					this.wrapperEl.style.transform = `translate3d(${translateX}px, 0px, 0px)`;
-		// 			},
-		// 		},
-		// 	});
-		// });
-
-		document.querySelectorAll('.services__slider').forEach((sliderEl) => {
-			const swiper = new Swiper(sliderEl, {
-				modules: [FreeMode],
-				observer: true,
-				observeParents: true,
-				slidesPerView: "auto",
-				cssMode: true,
-				speed: 800,
-				freeMode: {
-					enabled: true,
-					momentumBounce: false,
-				},
-				nested: true,
-				breakpoints: {
-					300: { spaceBetween: 20 },
-					769: { spaceBetween: 37 },
-				},
-				on: {
-					init: function () {
-						let translateX = 0;
-	
-						if (sliderEl.classList.contains('slider-1')) {
-							translateX = -240;
-						} else if (sliderEl.classList.contains('slider-2')) {
-							translateX = -195;
-						} else if (sliderEl.classList.contains('slider-3')) {
-							translateX = -120;
-						}
-	
-						if (this.rtlTranslate) {
-							translateX = -translateX;
-						}
-	
-						this.wrapperEl.style.transform = `translate3d(${translateX}px, 0px, 0px)`;
-					},
-				},
-			});
-	
-			setTimeout(() => {
-				swiper.params.cssMode = false; 
-				swiper.wrapperEl.style.scrollBehavior = 'auto'; 
-			}, 1000);
-		});
-		
-  }
 	// == page SERVICE.HTML ===========
 	if (document.querySelector('.nav-serv__slider')) {
 		new Swiper('.nav-serv__slider', { 
@@ -678,6 +527,61 @@ function initSliders() {
 
 // 	items.forEach(item => observer.observe(item));
 // }
+
+function initSlidersServices() {
+	const sliders = document.querySelectorAll('.services__slider');
+	if (sliders.length > 0) {
+		sliders.forEach((sliderEl) => {
+			if (sliderEl.classList.contains('swiper-initialized')) return;
+	
+			const swiper = new Swiper(sliderEl, {
+				modules: [FreeMode],
+				observer: true,
+				observeParents: true,
+				slidesPerView: "auto",
+				cssMode: true,
+				speed: 800,
+				freeMode: {
+					enabled: true,
+					momentumBounce: false,
+				},
+				nested: true,
+				breakpoints: {
+					300: { spaceBetween: 20 },
+					769: { spaceBetween: 37 },
+				},
+				on: {
+					init: function () {
+						let translateX = 0;
+	
+						if (sliderEl.classList.contains('slider-1')) {
+							translateX = -240;
+						} else if (sliderEl.classList.contains('slider-2')) {
+							translateX = -195;
+						} else if (sliderEl.classList.contains('slider-3')) {
+							translateX = -120;
+						}
+	
+						if (this.rtlTranslate) {
+							translateX = -translateX;
+						}
+	
+						this.wrapperEl.style.transform = `translate3d(${translateX}px, 0px, 0px)`;
+					},
+				},
+			});
+	
+			setTimeout(() => {
+				swiper.params.cssMode = false;
+				swiper.wrapperEl.style.scrollBehavior = 'auto';
+			}, 1000);
+		});
+	}
+
+}
+
+
+
 function initSlideObserver() {
 	const items = document.querySelectorAll('.our-serv__item');
 	const swiper = document.querySelector('.our-serv__slider').swiper;
@@ -725,6 +629,29 @@ function initSlideObserver() {
 window.addEventListener("load", function (e) {
 
 	initSliders();
+
+
+// Инициализация .services__slider с небольшой задержкой
+	requestAnimationFrame(() => {
+		setTimeout(() => {
+			initSlidersServices();
+		}, 300);
+	});
+
+	// === MutationObserver для отложенных/динамических .services__slider ===
+	const observer = new MutationObserver(() => {
+		const uninitializedSliders = Array.from(document.querySelectorAll('.services__slider'))
+			.filter(slider => !slider.classList.contains('swiper-initialized'));
+
+		if (uninitializedSliders.length > 0) {
+			initSlidersServices();
+		}
+	});
+
+	observer.observe(document.body, {
+		childList: true,
+		subtree: true,
+	});
 	
 });
 
