@@ -194,17 +194,13 @@
     (() => {
         "use strict";
         const flsModules = {};
-        function isWebp() {
-            function testWebP(callback) {
-                let webP = new Image;
-                webP.onload = webP.onerror = function() {
-                    callback(webP.height == 2);
-                };
-                webP.src = "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA";
-            }
-            testWebP((function(support) {
-                let className = support === true ? "webp" : "no-webp";
-                document.documentElement.classList.add(className);
+        function isVideoHero() {
+            window.addEventListener("DOMContentLoaded", (function() {
+                const video = document.getElementById("heroVideo");
+                if (video) {
+                    const isMobile = window.innerWidth < 480;
+                    video.poster = isMobile ? "files/video-mob.webp" : "files/video.webp";
+                }
             }));
         }
         let isMobile = {
@@ -7767,7 +7763,7 @@
             document.addEventListener("DOMContentLoaded", init);
         })();
         window["FLS"] = false;
-        isWebp();
+        isVideoHero();
         addTouchClass();
         addLoadedClass();
         menuInit();

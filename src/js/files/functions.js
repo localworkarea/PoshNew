@@ -17,6 +17,15 @@ export function isWebp() {
 		document.documentElement.classList.add(className);
 	});
 }
+export function isVideoHero() {
+	window.addEventListener("DOMContentLoaded", function () {
+		const video = document.getElementById("heroVideo");
+		if (video) {
+			const isMobile = window.innerWidth < 480;
+			video.poster = isMobile ? "files/video-mob.webp" : "files/video.webp";
+		}
+	});
+}
 /* Перевірка мобільного браузера */
 export let isMobile = { Android: function () { return navigator.userAgent.match(/Android/i); }, BlackBerry: function () { return navigator.userAgent.match(/BlackBerry/i); }, iOS: function () { return navigator.userAgent.match(/iPhone|iPad|iPod/i); }, Opera: function () { return navigator.userAgent.match(/Opera Mini/i); }, Windows: function () { return navigator.userAgent.match(/IEMobile/i); }, any: function () { return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows()); } };
 /* Додавання класу touch для HTML, якщо браузер мобільний */
@@ -27,11 +36,7 @@ export function addTouchClass() {
 // Додавання loaded для HTML після повного завантаження сторінки
 export function addLoadedClass() {
 	if (!document.documentElement.classList.contains('loading')) {
-		// window.addEventListener("load", function () {
-		// 	setTimeout(function () {
-		// 		document.documentElement.classList.add('loaded');
-		// 	}, 0);
-		// });
+	
 		window.addEventListener("DOMContentLoaded", function () {
 			setTimeout(function () {
 				document.documentElement.classList.add('loaded');
