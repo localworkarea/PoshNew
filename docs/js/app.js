@@ -5589,20 +5589,18 @@
         }
         function initSlidersServices() {
             const sliders = document.querySelectorAll(".services__slider");
+            const isWideScreen = window.innerWidth >= 1051;
             if (sliders.length > 0) sliders.forEach((sliderEl => {
                 if (sliderEl.classList.contains("swiper-initialized")) return;
-                const swiper = new Swiper(sliderEl, {
+                new Swiper(sliderEl, {
                     modules: [ freeMode ],
                     observer: true,
                     observeParents: true,
                     slidesPerView: "auto",
-                    cssMode: true,
-                    speed: 800,
+                    speed: 500,
                     freeMode: {
-                        enabled: true,
-                        momentumBounce: false
+                        enabled: true
                     },
-                    nested: true,
                     breakpoints: {
                         300: {
                             spaceBetween: 20
@@ -5613,6 +5611,7 @@
                     },
                     on: {
                         init: function() {
+                            if (!isWideScreen) return;
                             let translateX = 0;
                             if (sliderEl.classList.contains("slider-1")) translateX = -240; else if (sliderEl.classList.contains("slider-2")) translateX = -195; else if (sliderEl.classList.contains("slider-3")) translateX = -120;
                             if (this.rtlTranslate) translateX = -translateX;
@@ -5620,10 +5619,6 @@
                         }
                     }
                 });
-                setTimeout((() => {
-                    swiper.params.cssMode = false;
-                    swiper.wrapperEl.style.scrollBehavior = "auto";
-                }), 1e3);
             }));
         }
         function initSlideObserver() {
@@ -5655,19 +5650,7 @@
         }
         window.addEventListener("load", (function(e) {
             initSliders();
-            requestAnimationFrame((() => {
-                setTimeout((() => {
-                    initSlidersServices();
-                }), 300);
-            }));
-            const observer = new MutationObserver((() => {
-                const uninitializedSliders = Array.from(document.querySelectorAll(".services__slider")).filter((slider => !slider.classList.contains("swiper-initialized")));
-                if (uninitializedSliders.length > 0) initSlidersServices();
-            }));
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
+            initSlidersServices();
         }));
         class ScrollWatcher {
             constructor(props) {
