@@ -183,6 +183,13 @@
 						htmlDocument.classList.add('loaded');
 						htmlDocument.classList.remove('lock');
 						htmlDocument.classList.remove('loading');
+
+						const video = document.getElementById("heroVideo");
+						if (video) {
+							video.play();
+							// const isMobile = window.innerWidth < 480;
+							// video.poster = isMobile ? "files/poster-mb.webp" : "files/poster-pc.webp";
+						}
 					}, 500);
 					setInterval(() => {
 						preloader.remove();

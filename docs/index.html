@@ -5,12 +5,17 @@
 	<title>Posh | Home page</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<!-- <style>body{opacity: 0;}</style> -->
+	<style>
+		body>*:not(.preloader) {
+			opacity: 0;
+			visibility: hidden;
+		}
+	</style>
 	<link rel="preload" href="fonts/HelveticaNeueRoman.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/Mont-Bold.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/Mont-Regular.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/Mont-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="stylesheet" href="css/style.min.css?_v=20250725165040">
+	<link rel="stylesheet" href="css/style.min.css?_v=20250725225109">
 	<link rel="shortcut icon" href="favicon.ico">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1399,6 +1404,13 @@
 							htmlDocument.classList.add('loaded');
 							htmlDocument.classList.remove('lock');
 							htmlDocument.classList.remove('loading');
+
+							const video = document.getElementById("heroVideo");
+							if (video) {
+								video.play();
+								// const isMobile = window.innerWidth < 480;
+								// video.poster = isMobile ? "files/poster-mb.webp" : "files/poster-pc.webp";
+							}
 						}, 500);
 						setInterval(() => {
 							preloader.remove();
@@ -1423,7 +1435,7 @@
 		});
 	</script>
 
-	<script src="js/app.min.js?_v=20250725165040"></script>
+	<script src="js/app.min.js?_v=20250725225109"></script>
 </body>
 
 </html>
