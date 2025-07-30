@@ -6336,6 +6336,18 @@ p {
   .services__tickers {
     padding-top: 3.125rem
   }
+  .services__slider.slider-1 {
+    -webkit-transform: translate3d(-240px,0,0);
+    transform: translate3d(-240px,0,0)
+  }
+  .services__slider.slider-2 {
+    -webkit-transform: translate3d(-195px,0,0);
+    transform: translate3d(-195px,0,0)
+  }
+  .services__slider.slider-3 {
+    -webkit-transform: translate3d(-120px,0,0);
+    transform: translate3d(-120px,0,0)
+  }
 }
 @media (min-width:66.93625em) {
   .shelf__title {

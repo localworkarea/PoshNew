@@ -5,17 +5,15 @@
 	<title>Posh | Home page</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<style>
-		body>*:not(.preloader) {
-			opacity: 0;
-			visibility: hidden;
-		}
-	</style>
+	<!-- <style>.loading body>*:not(.preloader){
+						opacity: 0;
+						visibility: hidden;
+					}</style> -->
 	<link rel="preload" href="fonts/HelveticaNeueRoman.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/Mont-Bold.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/Mont-Regular.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/Mont-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="stylesheet" href="css/style.min.css?_v=20250725225109">
+	<link rel="stylesheet" href="css/style.min.css?_v=20250730152815">
 	<link rel="shortcut icon" href="favicon.ico">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -130,7 +128,7 @@
 				<section class="hero">
 					<div class="hero__wrapper">
 						<div class="hero__bg">
-							<video loop muted playsinline id="heroVideo" class="hero__video ibg" poster="files/poster-pc.webp">
+							<video loop muted playsinline preload="auto" id="heroVideo" class="hero__video ibg" poster="files/poster-pc.webp">
 								<source src="files/posh-hero-2.mp4" width="1920" height="1080" type="video/mp4" media="(min-width: 30.061em)" />
 								<source src="files/posh-hero-3.mp4" width="374" height="450" type="video/mp4" media="(max-width: 30.061em)" />
 							</video>
@@ -1219,28 +1217,28 @@
 	</div>
 
 
-	<div id="preloader">
-		<script>
-			function preloader() {
-				const preloaderContainer = document.querySelector('#preloader');
-				const hasCustomPreloader = document.querySelectorAll('[data-preloader]');
+	<!-- <div id="preloader">
+	<script>
+		function preloader() {
+			const preloaderContainer = document.querySelector('#preloader');
+			const hasCustomPreloader = document.querySelectorAll('[data-preloader]');
 
 
-				if (hasCustomPreloader.length) {
-					preloaderElements = Array.from(hasCustomPreloader).flatMap(el => {
-						const targets = [];
-						if (['IMG', 'VIDEO'].includes(el.tagName)) targets.push(el);
-						targets.push(...el.querySelectorAll('img, video'));
-						return targets;
-					});
+			if (hasCustomPreloader.length) {
+				preloaderElements = Array.from(hasCustomPreloader).flatMap(el => {
+					const targets = [];
+					if (['IMG', 'VIDEO'].includes(el.tagName)) targets.push(el);
+					targets.push(...el.querySelectorAll('img, video'));
+					return targets;
+				});
 
-				} else {
-					preloaderElements = document.querySelectorAll('img');
-				}
+			} else {
+				preloaderElements = document.querySelectorAll('img');
+			}
 
 
-				if (preloaderElements.length) {
-					const preloaderStyleTemplate = `
+			if (preloaderElements.length) {
+				const preloaderStyleTemplate = `
 				<style>
 					* {
 						padding: 0px;
@@ -1303,9 +1301,9 @@
 						}
 				</style>`;
 
-					document.head.insertAdjacentHTML("beforeend", preloaderStyleTemplate);
+				document.head.insertAdjacentHTML("beforeend", preloaderStyleTemplate);
 
-					const preloaderTemplate = `
+				const preloaderTemplate = `
 					<div class="preloader">
 						<div class="preloader__body">
 							<div class="preloader__logo">
@@ -1342,100 +1340,109 @@
 							<div class="preloader__line"><span></span></div>
 						</div>
 					</div>`;
-					document.body.insertAdjacentHTML("beforeend", preloaderTemplate);
+				document.body.insertAdjacentHTML("beforeend", preloaderTemplate);
 
-					const
-						preloader = document.querySelector('.preloader'),
-						showPecentLoad = document.querySelector('.preloader__counter'),
-						showLineLoad = document.querySelector('.preloader__line span'),
-						htmlDocument = document.documentElement;
+				const
+					preloader = document.querySelector('.preloader'),
+					showPecentLoad = document.querySelector('.preloader__counter'),
+					showLineLoad = document.querySelector('.preloader__line span'),
+					htmlDocument = document.documentElement;
 
-					let imagesLoadedCount = 0;
-					let counter = 0;
-					let progress = 0;
-
-
-					htmlDocument.classList.add('loading');
-					htmlDocument.classList.add('lock');
+				let imagesLoadedCount = 0;
+				let counter = 0;
+				let progress = 0;
 
 
-					preloaderElements.forEach(el => {
-						if (el.tagName === 'IMG') {
-							const imgClone = new Image();
-							imgClone.onload = imageLoaded;
-							imgClone.onerror = imageLoaded;
-							imgClone.src = el.dataset.src || el.src;
-						} else if (el.tagName === 'VIDEO') {
-							if (el.readyState >= 2) {
-								imageLoaded(); // уже загружено
-							} else {
-								el.addEventListener('loadeddata', imageLoaded, {
-									once: true
-								});
-								el.addEventListener('error', imageLoaded, {
-									once: true
-								});
-							}
+				htmlDocument.classList.add('loading');
+				htmlDocument.classList.add('lock');
+
+
+				preloaderElements.forEach(el => {
+					if (el.tagName === 'IMG') {
+						const imgClone = new Image();
+						imgClone.onload = imageLoaded;
+						imgClone.onerror = imageLoaded;
+						imgClone.src = el.dataset.src || el.src;
+					} else if (el.tagName === 'VIDEO') {
+						if (el.readyState >= 2) {
+							imageLoaded(); // уже загружено
+						} else {
+							el.addEventListener('loadeddata', imageLoaded, {
+								once: true
+							});
+							el.addEventListener('error', imageLoaded, {
+								once: true
+							});
 						}
-					});
-
-
-					function setValueProgress(progress) {
-						if (showPecentLoad) showPecentLoad.innerText = `${progress}%`;
-						if (showLineLoad) showLineLoad.style.width = `${progress}%`;
 					}
-					if (showPecentLoad) setValueProgress(progress);
+				});
 
-					function imageLoaded() {
-						imagesLoadedCount++;
-						progress = Math.round((100 / preloaderElements.length) * imagesLoadedCount);
-						const intervalId = setInterval(() => {
-							if (counter >= progress) {
-								clearInterval(intervalId);
-							} else {
-								setValueProgress(++counter);
-								if (counter >= 100) addLoadedClass();
-							}
-						}, 10);
-					}
 
-					function addLoadedClass() {
-						setTimeout(() => {
-							htmlDocument.classList.add('loaded');
-							htmlDocument.classList.remove('lock');
-							htmlDocument.classList.remove('loading');
-
-							const video = document.getElementById("heroVideo");
-							if (video) {
-								video.play();
-								// const isMobile = window.innerWidth < 480;
-								// video.poster = isMobile ? "files/poster-mb.webp" : "files/poster-pc.webp";
-							}
-						}, 500);
-						setInterval(() => {
-							preloader.remove();
-							preloaderContainer.remove();
-						}, 500);
-					}
-				} else {
-					preloaderContainer.remove();
+				function setValueProgress(progress) {
+					if (showPecentLoad) showPecentLoad.innerText = `${progress}%`;
+					if (showLineLoad) showLineLoad.style.width = `${progress}%`;
 				}
+				if (showPecentLoad) setValueProgress(progress);
+
+				function imageLoaded() {
+					imagesLoadedCount++;
+					progress = Math.round((100 / preloaderElements.length) * imagesLoadedCount);
+					const intervalId = setInterval(() => {
+						if (counter >= progress) {
+							clearInterval(intervalId);
+						} else {
+							setValueProgress(++counter);
+							if (counter >= 100) addLoadedClass();
+						}
+					}, 10);
+				}
+
+				function addLoadedClass() {
+					setTimeout(() => {
+						htmlDocument.classList.add('loaded');
+						htmlDocument.classList.remove('lock');
+						htmlDocument.classList.remove('loading');
+
+						const video = document.getElementById("heroVideo");
+						if (video) {
+							video.play();
+							// const isMobile = window.innerWidth < 480;
+							// video.poster = isMobile ? "files/poster-mb.webp" : "files/poster-pc.webp";
+						}
+					}, 500);
+					setInterval(() => {
+						preloader.remove();
+						preloaderContainer.remove();
+					}, 500);
+				}
+			} else {
+				preloaderContainer.remove();
 			}
-			preloader();
-		</script>
-	</div>
+		}
+		preloader();
+	</script>
+</div> -->
 	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			const video = document.getElementById("heroVideo");
-			if (video) {
-				video.play();
-				const isMobile = window.innerWidth < 480;
-				video.poster = isMobile ? "files/poster-mb.webp" : "files/poster-pc.webp";
-			}
+		document.addEventListener('DOMContentLoaded', () => {
+			const video = document.getElementById('heroVideo');
+
+			if (!video) return;
+
+			const tryPlay = () => {
+				if (video.readyState >= 3) {
+					video.play().then(() => {
+						video.classList.add('_ready');
+					}).catch(() => {});
+				} else {
+					requestAnimationFrame(tryPlay);
+				}
+			};
+
+			tryPlay();
 		});
 	</script>
 
-	<script src="js/app.min.js?_v=20250725225109"></script>
+	<script src="js/app.min.js?_v=20250730152815"></script>
 </body>
 
 </html>

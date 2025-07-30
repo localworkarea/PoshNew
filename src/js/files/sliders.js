@@ -603,25 +603,25 @@ function initSlidersServices() {
 					769: { spaceBetween: 37 },
 				},
 				on: {
-					init: function () {
-						if (!isWideScreen) return; // если меньше 1051px — не смещаем
+					// init: function () {
+					// 	if (!isWideScreen) return; // если меньше 1051px — не смещаем
 
-						let translateX = 0;
+					// 	let translateX = 0;
 
-						if (sliderEl.classList.contains('slider-1')) {
-							translateX = -240;
-						} else if (sliderEl.classList.contains('slider-2')) {
-							translateX = -195;
-						} else if (sliderEl.classList.contains('slider-3')) {
-							translateX = -120;
-						}
+					// 	if (sliderEl.classList.contains('slider-1')) {
+					// 		translateX = -240;
+					// 	} else if (sliderEl.classList.contains('slider-2')) {
+					// 		translateX = -195;
+					// 	} else if (sliderEl.classList.contains('slider-3')) {
+					// 		translateX = -120;
+					// 	}
 
-						if (this.rtlTranslate) {
-							translateX = -translateX;
-						}
+					// 	if (this.rtlTranslate) {
+					// 		translateX = -translateX;
+					// 	}
 
-						this.wrapperEl.style.transform = `translate3d(${translateX}px, 0px, 0px)`;
-					},
+					// 	this.wrapperEl.style.transform = `translate3d(${translateX}px, 0px, 0px)`;
+					// },
 				},
 			});
 		});

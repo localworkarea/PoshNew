@@ -1,10 +1,19 @@
 <script>
-  	document.addEventListener("DOMContentLoaded", function () {
-		const video = document.getElementById("heroVideo");
-		if (video) {
-			video.play();
-			const isMobile = window.innerWidth < 480;
-			video.poster = isMobile ? "files/poster-mb.webp" : "files/poster-pc.webp";
+  document.addEventListener('DOMContentLoaded', () => {
+	const video = document.getElementById('heroVideo');
+
+	if (!video) return;
+
+	const tryPlay = () => {
+		if (video.readyState >= 3) {
+			video.play().then(() => {
+				video.classList.add('_ready');
+			}).catch(() => {});
+		} else {
+			requestAnimationFrame(tryPlay);
 		}
-	});
+	};
+
+	tryPlay();
+});
 </script>

@@ -5,10 +5,10 @@
 	<title>Posh | Home page</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<style>.loading body>*:not(.preloader){
+	<!-- <style>.loading body>*:not(.preloader){
 						opacity: 0;
 						visibility: hidden;
-					}</style>
+					}</style> -->
 	 <link rel="preload" href="fonts/HelveticaNeueRoman.woff2" as="font" type="font/woff2" crossorigin>
 	 <link rel="preload" href="fonts/Mont-Bold.woff2" as="font" type="font/woff2" crossorigin>
 	 <link rel="preload" href="fonts/Mont-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -28,7 +28,7 @@
 				<section class="hero">
 					<div class="hero__wrapper">
 						<div class="hero__bg">
-							<video loop muted playsinline id="heroVideo" class="hero__video ibg" poster="files/poster-pc.webp">
+							<video loop muted playsinline preload="auto" id="heroVideo" class="hero__video ibg" poster="files/poster-pc.webp">
 								<source src="files/posh-hero-2.mp4" width="1920" height="1080" type="video/mp4" media="(min-width: 30.061em)" />
 								<source src="files/posh-hero-3.mp4" width="374" height="450" type="video/mp4" media="(max-width: 30.061em)" />
 							</video>
@@ -731,7 +731,7 @@
 	</div>
 	
 	
-	@@include('html/_preloader.htm',{})
+	<!-- @@include('html/_preloader.htm',{}) -->
 	@@include('html/_js-hom.htm',{})
 	@@include('html/_js.htm',{})
 </body>

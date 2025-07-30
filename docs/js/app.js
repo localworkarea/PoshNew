@@ -5589,7 +5589,7 @@
         }
         function initSlidersServices() {
             const sliders = document.querySelectorAll(".services__slider");
-            const isWideScreen = window.innerWidth >= 1051;
+            window.innerWidth;
             if (sliders.length > 0) sliders.forEach((sliderEl => {
                 if (sliderEl.classList.contains("swiper-initialized")) return;
                 new Swiper(sliderEl, {
@@ -5609,15 +5609,7 @@
                             spaceBetween: 37
                         }
                     },
-                    on: {
-                        init: function() {
-                            if (!isWideScreen) return;
-                            let translateX = 0;
-                            if (sliderEl.classList.contains("slider-1")) translateX = -240; else if (sliderEl.classList.contains("slider-2")) translateX = -195; else if (sliderEl.classList.contains("slider-3")) translateX = -120;
-                            if (this.rtlTranslate) translateX = -translateX;
-                            this.wrapperEl.style.transform = `translate3d(${translateX}px, 0px, 0px)`;
-                        }
-                    }
+                    on: {}
                 });
             }));
         }
