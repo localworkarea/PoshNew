@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const casePage = document.querySelector('.case-page');
         
         if (popupCases || casePage || heroSection) {
+        // if (popupCases || casePage) {
 
           const videoElements = document.querySelectorAll('video');
     
