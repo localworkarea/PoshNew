@@ -44,6 +44,26 @@ export function addLoadedClass() {
 		});
 	}
 }
+// export function addLoadedClass() {
+// 	if (!document.documentElement.classList.contains('loading')) {
+// 		const addClass = (immediate = false) => {
+// 			if (immediate) {
+// 				document.documentElement.classList.add('loaded');
+// 			} else {
+// 				setTimeout(() => {
+// 					document.documentElement.classList.add('loaded');
+// 				}, 300);
+// 			}
+// 		};
+
+// 		if (document.readyState === "complete" || document.readyState === "interactive") {
+// 			addClass(true); // Без задержки, если уже загружено
+// 		} else {
+// 			window.addEventListener("DOMContentLoaded", () => addClass(false));
+// 		}
+// 	}
+// }
+
 // Отримання хешу на адресі сайту
 export function getHash() {
 	if (location.hash) { return location.hash.replace('#', ''); }

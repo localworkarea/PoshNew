@@ -1,19 +1,25 @@
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
 	const video = document.getElementById('heroVideo');
-
 	if (!video) return;
 
-	const tryPlay = () => {
-		if (video.readyState >= 3) {
-			video.play().then(() => {
-				video.classList.add('_ready');
-			}).catch(() => {});
-		} else {
-			requestAnimationFrame(tryPlay);
-		}
+	const playVideo = () => {
+		video.play()
+			.then(() => video.classList.add('_ready'))
+			.catch(() => {});
 	};
 
-	tryPlay();
+	if (video.readyState >= 3) {
+		playVideo();
+	} else {
+		const tryPlay = () => {
+			if (video.readyState >= 3) {
+				playVideo();
+			} else {
+				requestAnimationFrame(tryPlay);
+			}
+		};
+		tryPlay();
+	}
 });
 </script>
